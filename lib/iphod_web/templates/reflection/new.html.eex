@@ -1,0 +1,12 @@
+<div id= "header-elm-container"></div>
+<h2 class="reflection-type">New reflection</h2>
+<reflection 
+  id="refl"
+  data-recno= 0
+  data-date=""
+  data-author=""
+  data-text=""
+  data-published=false
+>
+
+<div id= "reflection-elm-container"></div>

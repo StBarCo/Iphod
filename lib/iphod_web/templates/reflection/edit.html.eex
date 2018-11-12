@@ -1,0 +1,11 @@
+<div id= "header-elm-container"></div>
+<h2 class="reflection-type">Edit reflection</h2>
+<reflection 
+  id="refl"
+  data-recno= "<%= @reflection.id %>"
+  data-date="<%= @reflection.date %>"
+  data-author="<%= @reflection.author %>"
+  data-text="<%= @reflection.markdown %>"
+  data-published="<%= @reflection.published %>"
+>
+<div id= "reflection-elm-container"></div>

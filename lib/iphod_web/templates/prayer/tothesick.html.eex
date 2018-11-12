@@ -1,0 +1,87 @@
+<button class="more-options" type="button">Options</button>
+<div id= "header-elm-container"></div>
+<br>
+<div class= "mpep">
+  <p class= "midday"><%= dgettext "np", "Ministration to the Sick"%></p>
+  <p class="rubric-office"><%= dgettext "sick", """
+    The Officiant begins
+    """%>
+  </p>
+  <p class="office"><%= dgettext "sick", """
+    Savior of the world, by your cross and precious blood you have redeemed 
+    us; Save us, and help us, we humbly beseech you, O Lord.
+    """%>
+  </p>
+  <p class="rubric-office"><%= dgettext "sick", """
+    The Priest (or other authorized person) dips a thumb in the holy oil, 
+    and makes the sign of the cross on the sick person’s forehead, and,
+    if appropriate, that part of the body which suffers from sickness or 
+    injury. Others may join in the laying on of hands. The Officiant says
+    """%>
+  </p>
+  <p class="office"><%= dgettext "sick", "N., I anoint you with oil and "%>
+    <span class="italic"><%= dgettext "sick", "I/we" %></span>
+    <%= dgettext "sick", "lay" %>
+    <span class="italic"><%= dgettext "sick", "my/our" %></span>
+    <%= dgettext "sick", """
+      hands upon you in the Name of the Father, and of the
+      Son, and of the Holy Spirit. Amen.
+    """%>
+    <span class="italic"><%= dgettext "sick", "Amen." %></span>
+  </p>
+  <br>
+  <p class="office"><%= dgettext "sick", """
+    Lord Jesus Christ, heal this your servant, sustain him with your 
+    presence, drive away all sickness of body, mind and spirit, and give 
+    to him that victory of life and peace which will enable him to serve
+    you both now and evermore.     
+    """%>
+    <span class="italic"><%= dgettext "sick", "Amen." %></span>
+  </p>
+  <p class="rubric-office"><%= dgettext "sick", """
+    The Officiant may add the following prayer
+    """%>
+  </p>
+  <p class="office"><%= dgettext "sick", """
+    Gracious heavenly Father, as this your servant has been outwardly anointed 
+    with holy oil and received the laying on of hands, so grant him the inward 
+    anointing of your Holy Spirit. Of your great mercy, forgive him his sins, 
+    release him from suffering, and restore him to wholeness and strength.
+    Deliver him from all evil, preserve him in all goodness, and bring him to 
+    everlasting life; through Jesus Christ our Lord.
+    """%>
+    <span class="italic"><%= dgettext "sick", "Amen." %></span>
+  </p>  
+  
+  <p class="rubric-office"><%= dgettext "sick", """
+    Additional prayers or intercessions may be said.
+    """%>
+  </p>
+
+  <p class="rubric-office"><%= dgettext "sick", """
+    The Lord’s Prayer is said.
+    """%>
+  </p>
+
+  <%= render "_lords_prayer_trad.html" %>
+
+  <p class="rubric-office"><%= dgettext "sick", """
+    The Officiant then prays
+    """%>
+  </p>
+
+  <p class="office"><%= dgettext "sick", """
+    The Almighty Lord, who is a strong tower to all who put their trust in him, 
+    to whom all things in heaven, on earth, and under the earth bow and obey: 
+    Be now and evermore your defense, and make you know and feel that the only 
+    Name under heaven given for health and salvation is the Name of our Lord 
+    Jesus Christ.
+    """%>
+    <span class="italic"><%= dgettext "sick", "Amen." %></span>
+  </p>  
+  <p class="rubric-office"><%= dgettext "sick", """
+    A priest may conclude the above prayer with a blessing.
+    """%>
+  </p>
+
+</div>
