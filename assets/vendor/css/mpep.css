@@ -1,14 +1,6 @@
 /*!
  * styles for morning and evening prayer
 */
-body {
-  min-width: 35em;
-  max-width: 100%;
-  font-size: 14px;
-}
-@media screen and (max-width: 550px) { 
-  body { width: 92%; } 
-}
 
 #header     { 
   position: relative;
@@ -24,14 +16,6 @@ body {
 h3 {
   margin-bottom: 0.2em;
 }
-.mpep {
-  position: relative;
-  top: -3em;
-  font-family: "Georgia, Times New Roman, Times, serif";
-  font-size: 1em;
-  margin-left: 2em;
-  width: 93%;
-}
 
 div#chat-container {
   width: 36%;
@@ -40,11 +24,6 @@ div#chat-container {
 
 button.more-options{
   display: none;
-}
-
-.mpep p{
-  position: relative;
-  margin: 0;
 }
 
 p.office {
@@ -189,20 +168,6 @@ p.rubric-office {
 .canticle {
   padding-top: 1em;
   padding-bottom: 1em;
-}
-
-.canticle_title {
-  font-size: 1em;
-  margin: 0;
-  font-weight: bold;
-  padding: 0 2em 0 0;
-}
-
-.canticle_name {
-  font-size: 1em;
-  margin: 0;
-  font-style: italic;
-  padding: 0;
 }
 
 .mercy {
@@ -435,14 +400,7 @@ p.family_section_title{
 }
 */
 
-/*
-  .mpep {
-    width: 93%;
-    margin-left: 0.5em;
-  }
-*/
   @media screen and (max-width: 500px) {
-    .mpep { margin-top: 1em;}
     .pb_vs_indent { padding: 0 0 0 1em;}
     h3 { 
       font-size: 1em;
@@ -564,10 +522,7 @@ p.family_section_title{
   */
   
     .canticle { padding-bottom: 0;}
-    ul.psalm { 
-      width: 100%;
-      margin-top: 0;
-    }
+
     .ps_first {
       width: 92%;
     }
@@ -578,11 +533,7 @@ p.family_section_title{
     }
     li.ps_second_cont { padding-left: 1.5em; }
 
-    @media screen and (max-width: 320) {
-      .mpep { margin-top: 2em;}
-    }
     @media screen and (max-width: 320px) {
-      .mpep { margin-top: 2.5em;}
       button.more-options { top: -0.5em;}
     }
   }
