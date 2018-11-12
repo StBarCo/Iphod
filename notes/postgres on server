@@ -1,0 +1,58 @@
+YOU HAVE FIREWALL SET UP (ufw)
+sudo ufw status...
+To                         Action      From
+--                         ------      ----
+22                         ALLOW       Anywhere
+5984                       ALLOW       Anywhere
+5986                       ALLOW       Anywhere
+6984                       ALLOW       Anywhere
+80                         ALLOW       Anywhere
+5432/tcp                   ALLOW       Anywhere
+22 (v6)                    ALLOW       Anywhere (v6)
+5984 (v6)                  ALLOW       Anywhere (v6)
+5986 (v6)                  ALLOW       Anywhere (v6)
+6984 (v6)                  ALLOW       Anywhere (v6)
+80 (v6)                    ALLOW       Anywhere (v6)
+5432/tcp (v6)              ALLOW       Anywhere (v6)
+
+postgres on server
+
+/usr/lib/postgresql/9.6/bin/ where the code is
+/usr/lib/postgresql/9.5/bin/ where the code is
+
+/var/lib/postgresql/9.6/main - where the datafiles are
+(except 9.6 doesn't have any data there)
+/var/lib/postgresql/9.5/main - where the datafiles are
+
+to start postgres 9.5 for use by legereme.com
+1) su postgres
+2) /usr/lib/postgresql/9.5/bin/postgres "-D" "/var/lib/postgresql/9.5/main" "-c" "config_file=/etc/postgresql/9.5/main/postgresql.conf"
+3) go ahead and close the window
+
+sudo MIX_ENV=prod PORT=80 KEY=eI1yJowF9lFwygysQ/hV9pi9BbiRpcT+rsv5AK3HI0B84CHf3HCTJrmgmlqJxJ/0 elixir --detached -S mix do compile, phoenix.server
+
+restart couchdb...
+  sudo /etc/sv/couchdb/run restart
+
+// use the src/iphod directory
+
+#!/bin/bash
+sudo git stash clear
+sudo git stash
+sudo rm -rf web/elm/elm-stuff
+sudo git pull
+sudo git pull
+??? sudo mix deps.update phoenix phoenix_html
+??? LIBSASS_EXT=no npm install
+??? maybe use yarn
+??? and `sudo node node_modules/brunch/bin/brunch build`
+cd assets && npm install && cd ..
+sudo MIX_ENV=prod mix compile
+sudo MIX_ENV=prod mix ecto.migrate
+sudo MIX_ENV=prod mix phx.digest
+sudo MIX_ENV=prod mix release
+sudo # sudo PORT=4000 MIX_ENV=prod _build/prod/rel/iphod/bin/iphod console
+sudo mix phx.gen.secret
+sudo MIX_ENV=prod PORT=80 KEY=I/qZc9/YhiPY6PPUr8eUeopCAY4zC8l1WsUufJLEv3xIJhjplgKiz9KR/DFVEODD elixir --detached -S mix do compile, phx.server
+frpaulas@iphod:~/iphod$
+

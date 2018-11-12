@@ -6,5 +6,5 @@
   <li><%= @reflection.markdown %></li>
 </ul>
 
-<%= link "Edit", to: Routes.reflection_path(@conn, :edit, @reflection) %>
-<%= link "Back", to: Routes.reflection_path(@conn, :index) %>
+<%= link "Edit", to: reflection_path(@conn, :edit, @reflection) %>
+<%= link "Back", to: reflection_path(@conn, :index) %>
