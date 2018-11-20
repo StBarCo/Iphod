@@ -1,5 +1,3 @@
-<button class="more-options" type="button">Options</button>
-<div id= "header-elm-container"></div>
 <h1><%= dgettext "ep", "Daily Evening Prayer"%></h1>
 <h5><%=@model.date%></h5>
 <p class="title2">

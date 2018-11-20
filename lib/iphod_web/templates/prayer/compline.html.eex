@@ -1,5 +1,3 @@
-<button class="more-options" type="button">Options</button>
-<div id= "header-elm-container"></div>
 <h1><%= dgettext "comp", "Compline"%></h1>
 
 <p class="rubric"><%= dgettext "comp", "The Officiant begins"%></p>

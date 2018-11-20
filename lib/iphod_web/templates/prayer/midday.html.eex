@@ -1,5 +1,3 @@
-<button class="more-options" type="button">Options</button>
-<div id= "header-elm-container"></div>
 <h1><%= dgettext "mp", "Midday Prayer"%></h1>
 <p>
     <ul class="versicals">

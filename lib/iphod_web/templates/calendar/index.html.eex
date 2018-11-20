@@ -1,48 +1,5 @@
-<div id= "header-elm-container"></div>
-
 <div>
   <table id= "calendar">
-    <tr>
-      <th class= "mpep_link" colspan= "7">Today</th>
-    <tr>
-      <th class= "mpep_link" colspan= "2">
-        <button class= "prayer-button quick-options" data-prayer="morningPrayer">Morning Prayer</button>
-      </th>
-      <th class= "mpep_link" colspan="3">
-        <button id ="next-sunday-button" class= "quick-options">Next Sunday</button>
-        <button id ="reflection-today-button" class= "quick-options" data-type= "Reflection">Reflection</button>
-      </th>
-      <th class= "mpep_link" colspan= "2">
-        <button class= "prayer-button quick-options" data-prayer="eveningPrayer">Evening Prayer</button>
-      </th>
-    </tr>
-    <tr>
-      <th class= "season_link" colspan= "2">
-        <a href= "<%="/calendar/next/advent"%>" >
-          <button class= "quick-options" data-season= "Advent">Advent</button>
-        </a>
-      </th>
-      <th class= "season_link">
-        <a href= "<%="/calendar/next/epiphany"%>" >
-          <button class= "quick-options" data-season= "Epiphany">Epiphany</button>
-        </a>
-      </th>
-      <th class= "season_link">
-        <a href= "<%="/calendar/next/lent"%>" >
-          <button class= "quick-options" data-season= "Lent">Lent</button>
-        </a>
-      </th>
-      <th class= "season_link">
-        <a href= "<%="/calendar/next/easter"%>" >
-          <button class= "quick-options" data-season= "Easter">Easter</button>
-        </a>
-      </th>
-      <th class= "season_link" colspan= "2">
-        <a href= "<%="/calendar/next/pentecost"%>" >
-          <button class= "quick-options" data-season= "Pentecost">Pentecost</button>
-          </a>
-      </th>
-    </tr>
     <tr>
       <th class= "cal_move_month">
         <a href= "<%="/calendar/prev/#{@model.month}/#{@model.year}"%>" ><</a>

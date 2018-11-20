@@ -1,4 +1,4 @@
-module Iphod.MPReading exposing (Model, init, Msg, update, view, textStyle) -- where
+module Iphod.MPReading exposing (Model, init, Msg, update, view) -- where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,7 +8,7 @@ import String
 import Markdown
 
 import Iphod.Models as Models
-import Iphod.Helper exposing (hideable)
+import Iphod.Helper exposing (hideableClass)
 
 
 
@@ -161,13 +161,13 @@ view: Model -> Html Msg
 view model =
   div
   []
-  [ table [class "readings_table", tableStyle model]
+  [ table [ hideableClass model.show "readings_table width100p" ]
       [ caption
-        [titleStyle model]
-        [ span [onClick ToggleModelShow] [text (String.join " " ["Morning Prayer:", model.date])]
+        [ hideableClass model.show "MPEPtitleStyle"]
+        [ span [ onClick ToggleModelShow ] [text (String.join " " ["Morning Prayer:", model.date])]
         , br [] []
         , button
-          [ class "button", onClick ToggleCollect] [text "Collect"]
+          [ class "button", onClick ToggleCollect ] [text "Collect"]
         ]
       , tr
           [ class "rowStyle" ]
@@ -178,20 +178,20 @@ view model =
       , tr
           [ class "rowStyle" ]
           [ td
-              [class "tdStyle", style [("width", "16%")] ]
-              [ ul [textStyle model] ( thisReading model MP1)]
+              [ class "tdStyle width16p" ]
+              [ ul [ hideableClass model.show "MPEPtextStyle" ] ( thisReading model MP1)]
           , td
-              [class "tdStyle", style [("width", "16%")] ]
-              [ ul [textStyle model] ( thisReading model MP2)]
+              [ class "tdStyle width16p" ]
+              [ ul [ hideableClass model.show "MPEPtextStyle" ] ( thisReading model MP2)]
           , td
-              [class "tdStyle", style [("width", "16%")] ]
-              [ ul [textStyle model] ( thisReading model MPP)]
+              [ class "tdStyle width16p" ]
+              [ ul [ hideableClass model.show "MPEPtextStyle" ] ( thisReading model MPP)]
           ] -- end of row
     ] -- end of table
     , div [] (thisText model model.mp1)
     , div [] (thisText model model.mp2)
     , div [] (thisText model model.mpp)
-    , div [ collectStyle model.collect ] (thisCollect model.collect)
+    , div [ hideableClass model.collect.show "MPEPcollectStyle" ] (thisCollect model.collect)
   ] -- end of div
 
 
@@ -254,9 +254,9 @@ thisText model lessons =
                , Markdown.toHtml [] l.body
                ]
           else
-            div [id l.id, bodyStyle l, class "esv_text"]
-            [ span [style [("position", "relative"), ("top", "1em")]]
-                [ button [class "translationButton", onClick (ToggleShow l)] [text "Hide"]
+            div [id l.id, hideableClass l.show "esv_text"]
+            [ span [ class "relativeTop1em" ]
+                [ button [ class "translationButton", onClick (ToggleShow l)] [text "Hide"]
                 , versionSelect model l
                 , altReading model l
                 ]
@@ -342,60 +342,3 @@ onEnter msg =
         NoOp
   in
     on "keydown" (Json.map tagger keyCode)
-
-
-
-
-
--- STYLE
-
-tableStyle: Model -> Attribute msg
-tableStyle model =
-  hideable
-    model.show
-    [ ("width", "100%")]
-
-
-bodyStyle: Models.Lesson -> Attribute msg
-bodyStyle lesson =
-  hideable
-    lesson.show
-    []
-
-titleStyle: Model -> Attribute msg
-titleStyle model =
-  hideable
-    model.show
-    [ ("font-size", "0.9em")
-    , ("color", "blue")
-    , ("height", "2em")
-    ]
-
-textStyle: Model -> Attribute msg
-textStyle model =
-  hideable
-    model.show
-    [ ("font-size", "1em")
-    , ("margin", "0")
-    , ("padding", "0em")
-    , ("list-style-type", "none")
-    , ("display", "inline-block")
-    ]
-
-collectButtonStyle: Models.SundayCollect -> Attribute msg
-collectButtonStyle model =
-  hideable
-    model.show
-    []
-
-collectStyle: Models.SundayCollect -> Attribute msg
-collectStyle model =
-  hideable
-    model.show
-    [ ("font-size", "1em")
-    , ("background-color", "white")
-    , ("margin", "0em")
-    , ("padding", "0em")
-    , ("list-style-type", "none")
-    , ("display", "inline-block")
-    ]

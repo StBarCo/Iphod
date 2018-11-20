@@ -3,13 +3,15 @@
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-//@import "css/pure.css"
-//@import "css/menu_styles.css"
-//@import "css/flyoutmenu.css"
-//@import "css/print.css"
-//@import "css/mpep.css"
-//@import "css/resource.css"
-//@import "css/stations.css"
+
+@import "./pure.css"
+@import "./menu_styles.css"
+@import "./flyoutmenu.css"
+@import "./print.css"
+@import "./mpep.css"
+@import "./resource.css"
+@import "./stations.css"
+
 
 /* Space out content a bit */
 body, form, ul, table {
@@ -73,6 +75,7 @@ a.plain {
 }
 
 .width16p { width: 16%; }
+.width20p { width: 20%; }
 .width90p { width: 90%; }
 .width100p { widows: 100%; }
 .backgroundWhite { background-color: white; }
@@ -479,35 +482,6 @@ li.offices-item {
 
   .period { display: hide; }
 
-/*  
-  .ps_title {
-    font-size: 0.9em;
-    font-style: italic;
-  }
-  
-  .ps_vs_num {
-    margin-top: -2em;
-    margin-bottom: 1.3em;
-    width: 4em;
-    color: blue;
-  }
-  
-  .ps_first {
-    position: relative;
-    top: -2.2em;
-    padding-left: 2.8em ;
-    text-indent: -1.5em ;
-  }
-  
-  .ps_second {
-    position: relative;
-    top: -3.2em;
-    padding-left: 3em ;
-    text-indent: -1.5em ;
-    margin-bottom: -2.8em;
-  }
-  */
-  
   .rowStyle {
     text-align: left;
   }
@@ -1262,7 +1236,9 @@ li.offices-item {
   blockquote p{
     margin: -1em;
   }
-  
+
+/*  
   sup {
     color: darkred;
   }
+*/

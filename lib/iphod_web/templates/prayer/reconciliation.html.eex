@@ -1,6 +1,3 @@
-<button class="more-options" type="button">Options</button>
-<div id= "header-elm-container"></div>
-<br>
 <div class="mpep">
   <p class="midday"><%= dgettext "pen", "The Reconciliation of a Penitent"%></p>
   

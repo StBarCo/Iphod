@@ -10,6 +10,6 @@ import Html.Attributes exposing (..)
 -- onClickLimited msg =
 --   onWithOptions "click" { stopPropagation = True, preventDefault = True } Json.value (\_ -> Signal.message msg)
 
-hideable: Bool -> List (String, String) -> Attribute msg
-hideable show attr =
-  if show then style attr else style [("display", "none")]
+hideableClass: Bool -> String -> Attribute msg
+hideableClass show attr =
+  if show then class attr else class "hideable"

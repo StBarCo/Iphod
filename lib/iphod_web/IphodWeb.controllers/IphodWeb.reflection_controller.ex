@@ -2,7 +2,6 @@ defmodule IphodWeb.ReflectionController do
   use IphodWeb, :controller
 
   alias Iphod.Reflection
-  alias Iphod.Router.Helpers, as: Routes
 
   plug :scrub_params, "reflection" when action in [:create, :update]
 

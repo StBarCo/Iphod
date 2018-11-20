@@ -10,7 +10,6 @@ import Platform.Sub as Sub exposing (batch, none)
 import Platform.Cmd as Cmd exposing (Cmd)
 import String exposing (join)
 import Markdown
-import Iphod.Helper exposing (hideable)
 import Iphod.Models as Models
 import Iphod.Sunday as Sunday
 import Iphod.MPReading as MPReading
@@ -373,6 +372,11 @@ setLesson model section lesson =
 
 view : Model -> Html Msg
 view model =
+    let
+        _ =
+            Debug.log "MINDEX ELM: " ""
+    in
+            
     div []
         [ euDiv model
         , mpDiv model
@@ -427,24 +431,3 @@ oneLessonDiv model =
             p [] [ Markdown.toHtml [] l.body ]
     in
         div [] (List.map putLesson model.oneLesson)
-
-
-euReadingStyle : Model -> Attribute msg
-euReadingStyle model =
-    hideable
-        model.eu.show
-        []
-
-
-mpReadingStyle : Model -> Attribute msg
-mpReadingStyle model =
-    hideable
-        model.mp.show
-        []
-
-
-epReadingStyle : Model -> Attribute msg
-epReadingStyle model =
-    hideable
-        model.ep.show
-        []

@@ -11,7 +11,7 @@ import Json.Decode as Json
 import String exposing (slice, length)
 import Markdown exposing (..)
 
-import Iphod.Helper exposing (hideable)
+import Iphod.Helper exposing (hideableClass)
 import Iphod.Models as Models
 
 
@@ -91,7 +91,7 @@ view: Model -> Html Msg
 view model =
   let
     this_resource resc =
-      tr [ rowStyle resc ]
+      tr [ hideableClass resc.show "" ]
       [ td [class "tooltip"]
         [ span [ class "tooltiptext"] [ text resc.name ]
         , text (resc.name |> add_elipse 20)
@@ -231,10 +231,3 @@ findKeys =
         []
     ]
 
-
-
--- STYLE
-
-rowStyle: Models.Resource -> Attribute msg
-rowStyle model =
-  hideable model.show []

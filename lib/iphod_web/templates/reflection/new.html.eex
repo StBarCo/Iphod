@@ -1,4 +1,3 @@
-<div id= "header-elm-container"></div>
 <h2 class="reflection-type">New reflection</h2>
 <reflection 
   id="refl"

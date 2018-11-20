@@ -7,7 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 import Iphod.Models as Models
-import Iphod.Helper exposing (hideable)
+import Iphod.Helper exposing (hideableClass)
 
 -- MAIN
 
@@ -74,7 +74,7 @@ update msg model =
 
 view: Model -> Html Msg
 view model =
-  div [ id "reading-panel", class "ui-widget-content ui-corner-all", panelStyle model ]
+  div [ id "reading-panel", hideClass "ui-widget-content ui-corner-all" ]
   [ p [ class "panel-header" ] [ text model.date ]
   , p [ class "panel-header" ] [ text model.title ]
   , ul [ id "reading-menu"]
@@ -133,9 +133,3 @@ passageList model title service section vss =
     [ p [ class "section-title" ] [ text title ]
     , ul [class "reading-ul"] (List.map liVss vss)
     ]
-
-panelStyle: Model -> Attribute msg
-panelStyle model =
-  hideable
-    model.show
-    []

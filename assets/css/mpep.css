@@ -37,6 +37,7 @@ button.more-options {
   padding-bottom: 1em;
 }
 #container  { 
+  margin-top: 5em;
   position: relative;
   width: 100%;
 }
@@ -260,6 +261,7 @@ ul.psalm li{
   font-size: 1em;
   margin: 0;
   padding: 0 0 0 2em;
+  color: darkred;
 }
 
 .canticle {

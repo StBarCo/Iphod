@@ -9,7 +9,7 @@ import Html.Events exposing (..)
 import Regex exposing (regex, contains, caseInsensitive)
 import Json.Decode as Json
 
-import Iphod.Helper exposing (hideable)
+import Iphod.Helper exposing (hideableClass)
 
 
 -- MAIN
@@ -215,10 +215,10 @@ findLanguage =
 versionRow: Version -> Attribute msg
 versionRow model =
   let
-    this_style =
+    this_class =
       [ if model.selected
-          then ("background-color", "lightgreen")
-          else ("background-color", "white")
+          then "versionSelected"
+          else ("versionNotSelected")
       ]
   in
-    hideable model.show this_style
+    hideableClass model.show this_class

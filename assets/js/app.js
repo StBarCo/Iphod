@@ -12,9 +12,15 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html";
-import css from "../css/app.css"
+import appcss from "../css/app.css"
+import "../css/mpep.css"
+import "../css/menu_styles.css"
+import "../css/print.css"
+import "../css/resources.css"
+import "../css/stations.css"
+
 import { Elm as ElmStations } from '../src/Stations.elm';
-import { Elm as ElmHeader } from "../src/Header.elm"
+// import { Elm as ElmHeader } from "../src/Header.elm"
 import { Elm as ElmMIndex } from '../src/MIndex.elm';
 import { Elm as ElmMPanel } from '../src/MPanel.elm';
 import { Elm as ElmIphod } from '../src/Iphod.elm';
@@ -24,6 +30,20 @@ import { Elm as ElmReflections } from '../src/NewReflection.elm';
 
 var moment = require('moment');
 var markdown = require('markdown').markdown;
+
+var channel = socket.channel("iphod:readings");
+channel.join()
+  .receive("ok", resp => {
+    //console.log("OK: joined iphod:readings")
+  })
+  .receive("error", resp => { console.log("Unable to join Iphod", resp)});
+
+var elmCalDiv = document.getElementById('cal-elm-container')
+  , elmCalApp = ElmIphod.Iphod.init({node: elmCalDiv})
+  ;
+
+console.log("ELM CAL DIV:", elmCalDiv, elmCalApp)
+
 
 var path = window.location.pathname
   , path_parts = path.split("/").filter( function(el) {return el.length > 0})
@@ -225,89 +245,6 @@ if ( page == "stations") {
 }
 
 
-// HEADER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-var elmHeaderDiv = document.getElementById('header-elm-container')
-  , elmHeaderApp = ElmHeader.Header.init({node: elmHeaderDiv})
-  , channel = socket.channel("iphod:readings")
-  ;
-
-channel.join()
-  .receive("ok", resp => {
-    // elmHeaderApp.ports.portConfig.send(init_config_model());
-  })
-  .receive("error", resp => { console.log("Unable to join Iphod", resp) })
-
-elmHeaderApp.ports.portCSRFToken.send($("#csrf_token").val())
-
-elmHeaderApp.ports.portConfig.send(init_config_model());
-
-elmHeaderApp.ports.sendEmail.subscribe( function(email) {
-  channel.push("request_send_email", email)
-})
-
-elmHeaderApp.ports.saveLogin.subscribe( function(user) {
-  // console.log("APP JS: ", user)
-  let ls = window.localStorage
-  ls.setItem("user", user.username)
-  ls.setItem("token", user.token)
-})
-
-elmHeaderApp.ports.currentUser.subscribe( function() {
-  let ls = window.localStorage
-  channel.push("request_user", [ls.getItem("user"), ls.getItem("token")])
-})
-
-channel.on("current_user", data => {
-  // console.log("CURRENT USER: ", data)
-  elmHeaderApp.ports.portUser.send(data)
-})
-
-elmHeaderApp.ports.saveFontSize.subscribe( function(config) {
-  $('body').css('font-size', config.fontSize + "px");
-})
-
-elmHeaderApp.ports.saveConfig.subscribe( function(config) {
-  if (isOffice) {
-    if ( config.ps != get_version("ps") ) {
-      channel.push("get_prayer_reading", ["psalms", config.ps, $("#psalms").data("psalms")])
-    }
-    if ( config.ot != get_version("ot") ) { // taking OT ver as version for all
-      channel.push("get_alt_reading", ["reading1", config.ot, $("#reading1").data("reading1")] )
-      channel.push("get_alt_reading", ["reading2", config.ot, $("#reading2").data("reading2")] )
-    }
-  }
-  else { // is Calendar
-    if ( $("#eu .readings_table").is(":visible") ) {
-      channel.push("get_text", ["EU", $("#readings").data("reading_date"), [config.ps, config.ot, config.nt, config.gs]])
-    }
-    if ( $("#mp .readings_table").is(":visible") ) {
-      channel.push("get_text", ["MP", $("#readings").data("reading_date"), [config.ps, config.ot, config.nt, config.gs]])
-    }
-    if ( $("#ep .readings_table").is(":visible") ) {
-      channel.push("get_text", ["EP", $("#readings").data("reading_date"), [config.ps, config.ot, config.nt, config.gs]])
-    }
-  }
-  if ( storageAvailable('localStorage') ) {
-    let s = window.localStorage
-      , new_url = false
-      , vl = version_list();
-      ;
-    // if ot, ps, nt, or gs change, we should load a new url if office
-    if (isOffice) {
-      new_url = !(vl[0] == config.ps && vl[1] == config.ot && vl[2] == config.nt && vl[3] == config.gs)
-    }
-    s.setItem("iphod_ot", config.ot)
-    s.setItem("iphod_ps", config.ps)
-    s.setItem("iphod_nt", config.nt)
-    s.setItem("iphod_gs", config.gs)
-    s.setItem("iphod_fnotes", config.fnotes)
-    s.setItem("iphod_vers", config.vers.join(","))
-    s.setItem("iphod_current", config.current)
-    if (new_url) { window.location.replace("/" + page) }
-  }
-})
-
-
 if (isOffice) {
 // ALT READINGS...
   channel.on('single_lesson', data => {
@@ -346,9 +283,6 @@ if (isOffice) {
 // landing page, calendar
 
 if ( page == "calendar" || page == "mindex") {
-  elmHeaderApp.ports.portConfig.send(init_config_model());
-  history.pushState(path, "Legereme", "/calendar");
-
   // mindex
   if ( page == "mindex" ) {
     var elmMindexDiv = document.getElementById('m-elm-container')
@@ -478,13 +412,13 @@ if ( page == "calendar" || page == "mindex") {
   function showchat(){
     $("#chat-container").show();
     $(".toggle-chat").text("Hide Chat");
-    $("#reading-container").css("width", "59%")
+    $("#reading-container").appcss("width", "59%")
   }
 
   function hidechat(){
     $("#chat-container").hide();
     $(".toggle-chat").text("Show Chat");
-    $("#reading-container").css("width", "99%")
+    $("#reading-container").appcss("width", "99%")
   }
 
   $(".toggle-chat").click( function() {
@@ -504,10 +438,6 @@ if ( page == "calendar" || page == "mindex") {
 
   $("#next-sunday-button").click( function() {
     channel.push("get_text", ["NextSunday", (new Date).toDateString(), version_list() ] )
-  })
-
-  channel.on('latest_chats', data => {
-    elmHeaderApp.ports.portInitShout.send( data)
   })
 
 if ( page == "calendar" ) {
@@ -607,9 +537,6 @@ if ( page == "calendar" ) {
     channel.push("get_text", request);
   });
 
-  var elmCalDiv = document.getElementById('cal-elm-container')
-    , elmCalApp = ElmIphod.Iphod.init({node: elmCalDiv})
-
   if ( !!$("#these_readings").data("service") ) {
     // where the problem was
     var this_service = $("#these_readings").data("service")
@@ -626,11 +553,11 @@ if ( page == "calendar" ) {
     channel.push("get_lesson", request_list)
   })
 
-  elmCalApp.ports.requestAltReading.subscribe(function(request) {
-    var [section, ver, vss] = request;
-    ver = get_version(section)
-    channel.push("get_alt_reading", [section, ver, vss])
-  })
+//   elmCalApp.ports.requestAltReading.subscribe(function(request) {
+//     var [section, ver, vss] = request;
+//     ver = get_version(section)
+//     channel.push("get_alt_reading", [section, ver, vss])
+//   })
 
   elmCalApp.ports.requestScrollTop.subscribe(function(request) {
     // if needs be, request to be used to scroll to a location from top

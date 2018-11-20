@@ -6,7 +6,6 @@ import Markdown
 import Regex exposing (split, regex)
 
 import Iphod.Models as Models
-import Iphod.Helper exposing (hideable)
 
 
 -- MODEL

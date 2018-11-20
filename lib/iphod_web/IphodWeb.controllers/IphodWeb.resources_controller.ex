@@ -4,7 +4,6 @@ defmodule IphodWeb.ResourcesController do
   use IphodWeb, :controller
 
   alias Iphod.Resources
-  alias Iphod.Router.Helpers, as: Routes
 
   def printresources(conn, _params) do
     render(conn, "printresources.html", page_controller: "resources")

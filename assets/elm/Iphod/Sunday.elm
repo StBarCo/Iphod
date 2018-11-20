@@ -1,4 +1,4 @@
-module Iphod.Sunday exposing ( Model, init, Msg, update, view, textStyle) -- where
+module Iphod.Sunday exposing ( Model, init, Msg, update, view) -- where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,7 +8,7 @@ import String exposing (join)
 import Markdown
 -- import Debug
 
-import Iphod.Helper exposing (hideable)
+import Iphod.Helper exposing (hideableClass)
 import Iphod.Models as Models
 
 -- MODEL
@@ -163,9 +163,9 @@ view: Model -> Html Msg
 view model =
   div
   []
-  [ table [class "readings_table", tableStyle model]
+  [ table [ hideableClass "readings_table width100p"]
       [ caption
-        [titleStyle model]
+        [ hideableClass model.show "SundayTitleStyle" ]
         [ span [onClick ToggleModelShow] [text model.title]
         , p []
           [ button [ class "button collect-button", onClick ToggleCollect]
@@ -182,24 +182,24 @@ view model =
       , tr
           [ class "rowStyle" ]
           [ td
-              [class "tdStyle", style [("width", "20%")] ]
-              [ ul [textStyle model] ( thisReading model OT) ]
+              [class "tdStyle width20p" ] ]
+              [ ul [ hideableClass model.show "SundayTextStyle" ] ( thisReading model OT) ]
           , td
-              [class "tdStyle", style [("width", "20%")] ]
-              [ ul [textStyle model] ( thisReading model PS)]
+              [class "tdStyle width20p" ] ]
+              [ ul [ hideableClass model.show "SundayTextStyle" ] ( thisReading model PS)]
            , td
-              [class "tdStyle", style [("width", "20%")] ]
-              [ ul [textStyle model] ( thisReading model NT)]
+              [class "tdStyle width20p" ] ]
+              [ ul [ hideableClass model.show "SundayTextStyle" ] ( thisReading model NT)]
            , td
-              [class "tdStyle", style [("width", "20%")] ]
-              [ ul [textStyle model] ( thisReading model GS)]
+              [class "tdStyle width20p" ] ]
+              [ ul [ hideableClass model.show "SundayTextStyle" ] ( thisReading model GS)]
           ] -- end of row
       ] -- end of table
     , div [] (thisText model model.ot )
     , div [] (thisText model model.ps )
     , div [] (thisText model model.nt )
     , div [] (thisText model model.gs )
-    , div [ collectStyle model.collect ] (thisCollect model.collect)
+    , div [ hideableClass model.collect.show "SundayCollectStyle" ] (thisCollect model.collect)
 
   ] -- end of div
 
@@ -244,7 +244,7 @@ thisText model lessons =
           then
             div [id l.id, bodyStyle l, class "esv_text"]
                [ span
-                  [ style [("position", "relative"), ("top", "1em")]]
+                  [ class "relativeTop1em" ]
                   [ button [ class "translationButton", onClick (ToggleShow l) ] [ text "Hide" ]
                   , button
                      [ class "translationButton", getTranslation "Coverdale"]
@@ -257,8 +257,8 @@ thisText model lessons =
                , Markdown.toHtml [] l.body
                ]
           else
-            div [id l.id, bodyStyle l, class "esv_text"]
-            [ span [style [("position", "relative"), ("top", "1em")]]
+            div [id l.id, hideableClass l.show "esv_text backgroundWhite"]
+            [ span [ class "relativeTop1em" ]
                 [ button [class "translationButton", onClick (ToggleShow l)] [text "Hide"]
                 , versionSelect model l
                 , altReading model l
@@ -286,17 +286,17 @@ thisReading model section =
       if String.length l.body == 0
         then
           li
-            (hoverable [this_style l, onClick (ChangeText l.section ver)] )
+            (hoverable [thisClass l, onClick (ChangeText l.section ver)] )
             [text l.read]
         else
           li
-            (hoverable [this_style l, onClick (ToggleShow l)] )
+            (hoverable [thisClass l, onClick (ToggleShow l)] )
             [text l.read]
   in
     List.map this_lesson lessons
 
-this_style: Models.Lesson -> Attribute msg
-this_style l =
+thisClass: Models.Lesson -> Attribute msg
+thisClass l =
   case l.style of
     "req"     -> class "req_style"
     "opt"     -> class "opt_style"

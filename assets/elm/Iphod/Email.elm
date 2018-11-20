@@ -7,7 +7,6 @@ import Html.Events exposing (..)
 import String exposing (join)
 import Json.Decode as Json
 
-import Iphod.Helper exposing (hideable)
 import Iphod.Models exposing (Email, emailInit)
 
 -- MODEL
