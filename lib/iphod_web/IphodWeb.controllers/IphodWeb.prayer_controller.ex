@@ -7,6 +7,24 @@ defmodule IphodWeb.PrayerController do
   import BibleText, only: [lesson_with_body: 2]
   @tz "America/Los_Angeles"
 
+  def now(conn, params) do
+    dt = params["time"] |> Timex.parse!("%Y-%m-%d-%H", :strftime)
+
+    office =
+      cond do
+        dt.hour < 11 -> "mp"
+        dt.hour < 15 -> "midday"
+        dt.hour < 20 -> "ep"
+        true -> "compline"
+      end
+
+    model = prayer_model(office, params["psalm"], params["text"], dt)
+
+    conn
+    |> put_layout("app.html")
+    |> render(office <> ".html", model: model, page_controller: "prayer")
+  end
+
   def mp(conn, params) do
     if params["text"] |> is_nil do
       render(conn, "get_params.html", model: need_params(params, "mp"), page_controller: "prayer")
@@ -130,8 +148,8 @@ defmodule IphodWeb.PrayerController do
 
       _ ->
         conn
-        |> put_layout("local_office.html")
-        |> render(page_controller: "prayer")
+        |> put_layout("app.html")
+        |> render("get_params.html", model: need_params(params, "now"), page_controller: "prayer")
     end
   end
 
@@ -230,6 +248,10 @@ defmodule IphodWeb.PrayerController do
     |> Map.put(:collect_of_week, collect)
     |> Map.put(:day, day_of_week)
     |> Map.put(:reflID, reflectionID(day))
+  end
+
+  def prayer_model(_office, _psalm_translation, _text_translation, _rightNow) do
+    %{}
   end
 
   def put_canticle("mp", "ot", season, "Sunday") when season == "advent", do: "surge_illuminare"

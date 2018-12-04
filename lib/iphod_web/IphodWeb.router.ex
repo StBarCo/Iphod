@@ -20,6 +20,7 @@ defmodule IphodWeb.Router do
     pipe_through(:browser)
 
     get("/", PrayerController, :office)
+    get("/now/:time/:psalm/:text", PrayerController, :now)
     get("/office", PrayerController, :office)
     get("/office/:prayer", PrayerController, :office)
     get("/office/:prayer/:psalm", PrayerController, :office)
