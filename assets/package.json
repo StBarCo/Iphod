@@ -4,7 +4,7 @@
   "scripts": {
     "deploy": "webpack --mode production",
     "watch": "webpack --mode development --watch",
-    "elm": "elm",
+    "elm": "src",
     "test": "elm-test",
     "start": "npm run dev",
     "dev": "webpack-dev-server --hot --colors --port 3000",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "autoprefixer": "^6.4.0",
-    "jquery": "^3.2.1",
     "markdown": "^0.5.0",
     "moment": "^2.19.0",
     "node-sass": "^4.5.3",
@@ -33,6 +32,7 @@
     "elm-test": "^0.19.0-beta10",
     "elm-verify-examples": "^3.0.1",
     "elm-webpack-loader": "^5.0.0",
+    "jquery": "^3.3.1",
     "mini-css-extract-plugin": "^0.4.0",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "postcss-loader": "^3.0.0",

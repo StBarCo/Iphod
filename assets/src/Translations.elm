@@ -8,9 +8,8 @@ import Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Json
-import Iphod.Helper exposing (containsCaseInsensitive)
-
-import Iphod.Helper exposing (hideableClass)
+import Iphod.Helper exposing (..)
+import String exposing (contains, toLower)
 
 
 -- MAIN
@@ -78,15 +77,15 @@ update msg model =
         findThis ver =
           case col of
             "abbr"  ->
-              if containsCaseInsensitive name ver.abbr
+              if (isCaseInsensitive name ver.abbr)
                 then {ver | show = True}
                 else {ver | show = False}
             "name"    ->
-              if containsCaseInsensitive name ver.name
+              if (isCaseInsensitive name ver.name)
                 then {ver | show = True}
                 else {ver | show = False}
             _         -> -- language
-              if containsCaseInsensitive name ver.lang
+              if (isCaseInsensitive name ver.lang)
                 then {ver | show = True}
                 else {ver | show = False}
 
@@ -157,6 +156,11 @@ view model =
       ]
 
 -- HELPERS
+
+
+isCaseInsensitive: String -> String -> Bool
+isCaseInsensitive subs s =
+  contains (toLower subs) (toLower s)
 
 
 findVersion: Html Msg

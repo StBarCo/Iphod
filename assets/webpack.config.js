@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const elmPath = path.resolve(__dirname, 'node_modules/.bin/elm');
+const elmFolder = path.resolve(__dirname, 'src');
 
 module.exports = (env, options) => ({
  optimization: {
@@ -35,15 +37,18 @@ module.exports = (env, options) => ({
          use: {
            loader: 'elm-webpack-loader',
            options: {
-               debug: options.mode === "development"
-               }
+              pathToElm: elmPath, // don't use globally installed elm
+              cwd: elmFolder,
+              debug: options.mode === "development"
+            }
          }
      },
      {
        test: /\.css$/,
        use: [MiniCssExtractPlugin.loader, "css-loader"]
      }
-   ]
+   ],
+   noParse: [/\.elm$/]
  },
  plugins: [
    new MiniCssExtractPlugin({ filename: '../css/app.css' }),

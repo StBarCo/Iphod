@@ -36,8 +36,10 @@ The Confession of Sin may be said, or the Office may continue with
   data-psalms= '<%= @model.epp_names %>'
   data-psalms_ver= '<%= (@model.epp |> hd).version %>'
 >
-<%= @model.epp |> text_list_to_html %>
 </p>
+<div id="psalm_div">
+  <%= @model.epp |> text_list_to_html %>
+</div>
 
 <p class= "rubric"><%= dgettext "ep", "At the end of the Psalms is sung or said"%></p>
 <p class= "pb_vs"><%= dgettext "ep", "Glory to the Father, and to the Son, and to the Holy Spirit;"%></p>
@@ -60,8 +62,8 @@ The Confession of Sin may be said, or the Office may continue with
   data-reading1= '<%= @model.ep1_names %>'
   data-reading1_ver= '<%= (@model.ep1 |> hd).version %>'
 >
-<%= @model.ep1 |> text_list_to_html %>
 </p>
+<%= @model.ep1 |> text_list_to_html %>
 
 <p class= "rubric"><%= dgettext "ep", "A citation giving chapter and verse may be added."%></p>
 <p class= "rubric"><%= dgettext "ep", "After each Lesson the Reader may say"%></p>

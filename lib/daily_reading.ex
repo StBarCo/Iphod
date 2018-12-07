@@ -264,40 +264,6 @@ defmodule DailyReading do
     end)
   end
 
-  #   defp vssToId(vss) do
-  #     Regex.replace(~r/[\s\.\:\,]/, vss, "_")
-  #   end
-
-  # defp to_lessons(map) do
-  #   map
-  #   |> Map.update(:mp1, [], fn el -> _to_lessons_for("mp1", el) end)
-  #   |> Map.update(:mp2, [], fn el -> _to_lessons_for("mp2", el) end)
-  #   |> Map.update(:mpp, [], fn el -> _to_lessons_for("mpp", el) end)
-  #   |> Map.update(:ep1, [], fn el -> _to_lessons_for("ep1", el) end)
-  #   |> Map.update(:ep2, [], fn el -> _to_lessons_for("ep2", el) end)
-  #   |> Map.update(:epp, [], fn el -> _to_lessons_for("epp", el) end)
-  # end
-
-  #   defp _to_lessons_for(_section, []), do: []
-
-  #   defp _to_lessons_for(section, list) do
-  #     list |> Enum.map(fn el -> _add_keys_for(section, el) end)
-  #   end
-
-  #   defp _add_keys_for(section, map) do
-  #     if map |> Map.has_key?(:read) do
-  #       map |> Map.put_new(:id, vssToId(map.read))
-  #     else
-  #       map
-  #     end
-  #     |> Map.put_new(:section, section)
-  #     |> Map.put_new(:body, "")
-  #     |> Map.put_new(:show, false)
-  #     |> Map.put_new(:show_fn, true)
-  #     |> Map.put_new(:show_vn, true)
-  #     |> Map.put_new(:version, "")
-  #   end
-
   def mp_today(date) do
     r = readings(date)
 

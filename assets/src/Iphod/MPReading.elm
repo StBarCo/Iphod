@@ -161,7 +161,7 @@ view: Model -> Html Msg
 view model =
   div
   []
-  [ table [ hideableClass model.show "readings_table width16p" ]
+  [ table [ id "mp-readings", hideableClass model.show "readings_table width100p" ]
       [ caption
         [ hideableClass model.show "MPEPtitleStyle" ]
         [ span [onClick ToggleModelShow] [text (String.join " " ["Morning Prayer:", model.date])]
@@ -188,9 +188,10 @@ view model =
               [ ul [ hideableClass model.show "MPEPtextStyle" ] ( thisReading model MPP)]
           ] -- end of row
     ] -- end of table
-    , div [] (thisText model model.mp1)
-    , div [] (thisText model model.mp2)
-    , div [] (thisText model model.mpp)
+    -- div [ id key, attribute "data-html" html ] []
+    , div []  (thisText model model.mp1)
+    , div []  (thisText model model.mp2)
+    , div []  (thisText model model.mpp)
     , div [ hideableClass model.collect.show "MPEPcollectStyle" ] (thisCollect model.collect)
   ] -- end of div
 
@@ -251,7 +252,7 @@ thisText model lessons =
                   , versionSelect model l
                   , altReading model l
                   ]
-               , Markdown.toHtml [] l.body
+               , Markdown.toHtmlWith {githubFlavored = Just { tables = False, breaks = False}, defaultHighlighting = Nothing, sanitize = False, smartypants = False} [] l.body
                ]
           else
             div [id l.id, hideableClass l.show "esv_text"]
@@ -260,7 +261,7 @@ thisText model lessons =
                 , versionSelect model l
                 , altReading model l
                 ]
-            , Markdown.toHtml [] l.body
+            , Markdown.toHtmlWith {githubFlavored = Just { tables = False, breaks = False}, defaultHighlighting = Nothing, sanitize = False, smartypants = False} [] l.body
             ]
   in
     List.map this_text lessons

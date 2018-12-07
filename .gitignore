@@ -30,7 +30,7 @@ erl_crash.dump
 /priv/static/
 
 .DS_Store
-/assets/elm/elm-stuff/build-artifacts/
+/assets/src/elm-stuff/build-artifacts/
 .idea/
 
 *.elmi
@@ -39,7 +39,7 @@ erl_crash.dump
 
 assets/package-lock\.json
 
-assets/elm-stuff/
+assets/src/elm-stuff/
 
 assets/node_modules/
 

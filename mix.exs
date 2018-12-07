@@ -51,7 +51,7 @@ defmodule Iphod.MixProject do
       # {:jason, "~> 1.0"},
       {:httpoison, "~> 0.11.0"},
       {:mailgun, "~> 0.1.2"},
-      {:earmark, "~> 1.0.1"},
+      {:earmark, "~> 1.3.0"},
       {:dogma, "~> 0.1", only: :dev},
       {:mix_test_watch, "~> 0.2.6", only: :dev},
       {:comeonin, "~> 3.0"},

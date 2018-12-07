@@ -498,7 +498,7 @@ li.offices-item {
     width: 20%;
   }
   
-  .req_style {
+  .req {
       color: black;
       display: inline-block;
       padding-right: 1em;
@@ -506,7 +506,7 @@ li.offices-item {
       list-style-type: none;
   }
   
-  .opt_style {
+  .opt {
       color: grey;
       display: inline-block;
       padding-right: 1em;
@@ -515,7 +515,7 @@ li.offices-item {
   }
   
   
-  .alt_style {
+  .alt {
       color: darkblue;
       display: inline-block;
       padding-right: 1em;
@@ -523,7 +523,7 @@ li.offices-item {
       list-style-type: none;
   }
   
-  .altOpt_style {
+  .altOpt {
       color: indego;
       display: inline-block;
       padding-right: 1em;
@@ -532,14 +532,6 @@ li.offices-item {
   }
   
   
-  .bogis_style {
-      color: red;
-      display: inline-block;
-      padding-right: 1em;
-      cursor: pointer;
-      list-style-type: none;
-  }
-      
   .translationButton {
     font-size: 0.8em;
     margin-right: 1em;

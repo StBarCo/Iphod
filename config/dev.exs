@@ -56,7 +56,14 @@ config :iphod, IphodWeb.Endpoint,
     ]
   ]
 
-import_config "prod.secret.exs"
+config :iphod, Iphod.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  hostname: "legereme.com",
+  username: "frpaulas",
+  password: "Barafundle1570",
+  database: "legereme",
+  # The amount of database connections in the pool
+  size: 20
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

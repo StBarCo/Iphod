@@ -35,8 +35,10 @@
 <h4><%= dgettext "mp", "The Psalm or Psalms Appointed"%></h4>
 
 <p id= "psalms" class= "reading" data-psalms= '<%= @model.mpp_names %>' data-psalms_ver= '<%= (@model.mpp |> hd).version %>'>
-<%= @model.mpp |> text_list_to_html %>
 </p>
+<div id= "psalm_div">
+    <%= @model.mpp |> text_list_to_html %>
+</div>
 
 <p class= "rubric"><%= dgettext "mp", "At the end of the Psalms is sung or said"%></p>
 
@@ -50,8 +52,8 @@
 <input id="first_reading_alt" class="alt_reading" type="text" name="first_reading_alt" data-reading_target="reading1" placeholder="<%= dgettext "mp", "Alt Reading"%>">
 </p>
 <p id="reading1" class= "reading" data-reading1= '<%= @model.mp1_names %>' data-reading1_ver= '<%= (@model.mp1 |> hd).version %>'>
-<%= @model.mp1 |> text_list_to_html %>
 </p>
+<%= @model.mp1 |> text_list_to_html %>
 
 <p class= "rubric"><%= dgettext "mp", "A citation giving chapter and verse may be added."%></p>
 <p class= "rubric"><%= dgettext "mp", "After each Lesson the Reader may say"%></p>
@@ -68,8 +70,8 @@
 </p>
 
 <p id="reading2" class="reading" data-reading2= '<%= @model.mp2_names %>' data-reading2_ver= '<%= (@model.mp2 |> hd).version %>'>
-<%= @model.mp2 |> text_list_to_html %>
 </p>
+<%= @model.mp2 |> text_list_to_html %>
 
 <%= if @model.reflID > 0 do %>
 <div class= "reflection">

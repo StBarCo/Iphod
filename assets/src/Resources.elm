@@ -9,10 +9,10 @@ import Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Json
-import String exposing (slice, length)
+import String exposing (slice, length, contains, toLower)
 import Markdown exposing (..)
 
-import Iphod.Helper exposing (hideableClass, containsCaseInsensitive)
+import Iphod.Helper exposing (..)
 import Iphod.Models as Models
 
 
@@ -66,15 +66,15 @@ update msg model =
         findThis resc =
           case col of
             "name"  ->
-              if containsCaseInsensitive name resc.name
+              if isCaseInsensitive name resc.name
                 then {resc | show = True}
                 else {resc | show = False}
             "description"    ->
-              if containsCaseInsensitive name resc.description
+              if isCaseInsensitive name resc.description
                 then {resc | show = True}
                 else {resc | show = False}
             _         -> -- keys
-              if containsCaseInsensitive name resc.keys
+              if isCaseInsensitive name resc.keys
                 then {resc | show = True}
                 else {resc | show = False}
 
@@ -133,6 +133,12 @@ view model =
       ]
 
 -- HELPERS
+
+
+isCaseInsensitive: String -> String -> Bool
+isCaseInsensitive subs s =
+  contains (toLower subs) (toLower s)
+
 
 getResource: Models.Resource -> Html Msg
 getResource resource =

@@ -12,12 +12,14 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html";
-import appcss from "../css/app.css"
-import "../css/mpep.css"
-import "../css/menu_styles.css"
-import "../css/print.css"
-import "../css/resources.css"
-import "../css/stations.css"
+import appcss from "../css/app.css";
+import "../css/flyoutmenu.css";
+import "../css/mpep.css";
+import "../css/menu_styles.css";
+import "../css/print.css";
+import "../css/resources.css";
+import "../css/stations.css";
+import $ from 'jquery';
 
 import { Elm as ElmStations } from '../src/Stations.elm';
 // import { Elm as ElmHeader } from "../src/Header.elm"
@@ -41,9 +43,6 @@ channel.join()
 var elmCalDiv = document.getElementById('cal-elm-container')
   , elmCalApp = ElmIphod.Iphod.init({node: elmCalDiv})
   ;
-
-console.log("ELM CAL DIV:", elmCalDiv, elmCalApp)
-
 
 var path = window.location.pathname
   , path_parts = path.split("/").filter( function(el) {return el.length > 0})
@@ -266,7 +265,6 @@ if (isOffice) {
   })
 
   $(".get-reflection").click( function() {
-    console.log("REFL ID: ", $(this).data('id'))
     $('div.reflection-markdown').toggle();
     if ( $('div.reflection-markdown').text().length == 0) {
       channel.push('get_text', ['Reflection', $(this).data('id')]);
@@ -488,6 +486,7 @@ if ( page == "calendar" ) {
       .data("reading3_ver", "")
       .data("reading_date", data.date)
     elmCalApp.ports.portMP.send(data)
+
     rollup();
   })
 
@@ -545,7 +544,8 @@ if ( page == "calendar" ) {
 
     request.push( version_list() );
     channel.push("get_text", request);
-    $(window).scrollTop(0);
+    // $(window).scrollTop(0);
+    window.scrollTo(0, 0);
   }
 
   elmCalApp.ports.requestReading.subscribe(function(request) {
@@ -562,7 +562,7 @@ if ( page == "calendar" ) {
   elmCalApp.ports.requestScrollTop.subscribe(function(request) {
     // if needs be, request to be used to scroll to a location from top
     // use `setTimeout` to give page a chance to load
-    setTimeout("$(window).scrollTop(0)", 15);
+    setTimeout("window.scrollTo(0,0)", 15);
   })
 }
 
@@ -685,7 +685,6 @@ if ( page == "reflections" && (path_parts[1] == "new" || path_parts[2] == "edit"
   });
 
   refl_channel.on("reflection", data => {
-    console.log("REFLECTION: ", data)
     elmReflApp.ports.portReflection.send(data)
   })
 
