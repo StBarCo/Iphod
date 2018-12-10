@@ -470,6 +470,7 @@ if ( page == "calendar" ) {
       .data("reading3_ver", data.gs[0].version)
       .data("reading_date", data.date)
     elmCalApp.ports.portEU.send(data);
+    window.scrollTo(0, 0);
     rollup();
   })
 
@@ -485,8 +486,8 @@ if ( page == "calendar" ) {
       .data("reading3",     "")
       .data("reading3_ver", "")
       .data("reading_date", data.date)
-    elmCalApp.ports.portMP.send(data)
-
+    elmCalApp.ports.portMP.send(data);
+    window.scrollTo(0, 0);
     rollup();
   })
 
@@ -507,6 +508,7 @@ if ( page == "calendar" ) {
       .data("reading3_ver", "")
       .data("reading_date", data.date)
     elmCalApp.ports.portEP.send(data)
+    window.scrollTo(0, 0);
     rollup();
   })
 

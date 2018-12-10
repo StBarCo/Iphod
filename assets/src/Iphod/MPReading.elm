@@ -161,13 +161,11 @@ view: Model -> Html Msg
 view model =
   div
   []
-  [ table [ id "mp-readings", hideableClass model.show "readings_table width100p" ]
+  [ table [ hideableClass model.show "readings_table width100p" ]
       [ caption
         [ hideableClass model.show "MPEPtitleStyle" ]
-        [ span [onClick ToggleModelShow] [text (String.join " " ["Morning Prayer:", model.date])]
-        , br [] []
-        , button
-          [ class "button", onClick ToggleCollect] [text "Collect"]
+        [ span [onClick ToggleModelShow] 
+          [text (String.join " " ["Morning Prayer:", model.date])]
         ]
       , tr
           [ class "rowStyle" ]
@@ -237,7 +235,7 @@ thisText model lessons =
         getTranslation s =
           onClick (GetText [("ofType", "daily"), ("section", l.section), ("id", l.id), ("read", l.read), ("ver", s), ("fnotes", "True")])
       in
-        if l.section == "mpp" || l.section == "epp"
+        if l.section == "mpp"
           then
             div [id l.id, hideableClass l.show "esv_text"]
                [ span

@@ -85,7 +85,7 @@ a.plain {
 .versionNotSelected { background-color: white; }
 .relativeTop1em {
   position: relative;
-  top: 1em;
+  top: 0em;
 }
 .buttonStyle {
   position: relative;
@@ -116,7 +116,9 @@ a.plain {
 .MPEPtitleStyle {
   font-size: 0.9em;
   color: blue;
-  height: 2em;
+  height: 3em;
+  caption-side: top;
+  text-align: center;
 }
 .MPEPtextSytle {
   font-size: 1em;
@@ -137,6 +139,8 @@ a.plain {
   font-size: 0.9em;
   color: blue;
   height: 3em;  
+  caption-side: top;
+  text-align: center;
 }
 .SundayTextSytle {
   font-size: 1em;
@@ -459,8 +463,6 @@ li.offices-item {
   }
   
   .collect_title {
-    margin-bottom: -1em;
-    margin-top: 0em;
     font-variant: small-caps;
   }
   
@@ -707,8 +709,6 @@ li.offices-item {
     border-style: none;
   }
   main div table#calendar{
-    position: relative;
-    top: -4em;
     margin-left: 2em;
     width: 90%;
   }
@@ -1026,22 +1026,7 @@ li.offices-item {
   .configModalDialog > div {
     padding: 5px 20px 80px 20px;
   }
-  /*
-  .configModalDialog > div {
-    width: 33.2em;
-    height: auto;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 80px 20px;
-    border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradiant(#fff, #999);
-    background: -webkit-linear-gradiant(#fff, #999);
-    background: -o-linear-gradiant(#fff, #999);  
-  }
-  */
-  
-   > div {
+    > div {
     width: 33.2em;
     height: auto;
     position: relative;

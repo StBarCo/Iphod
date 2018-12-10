@@ -166,10 +166,8 @@ view model =
   [ table [ hideableClass model.show "readings_table"]
       [ caption
         [ hideableClass model.show "MPEPtitleStyle" ]
-        [ span [onClick ToggleModelShow] [text (String.join " " ["Evening Prayer:", model.date])]
-        , br [] []
-        , button
-          [ class "button", onClick ToggleCollect] [text "Collect"]
+        [ span [onClick ToggleModelShow] 
+          [text (String.join " " ["Evening Prayer:", model.date])]
         ]
       , tr
           [ class "rowStyle" ]
@@ -238,7 +236,7 @@ thisText model lessons =
         getTranslation s =
           onClick (GetText [("ofType", "daily"), ("section", l.section), ("id", l.id), ("read", l.read), ("ver", s), ("fnotes", "True")])
       in
-        if l.section == "epp" || l.section == "epp"
+        if l.section == "epp"
           then
             div [id l.id, hideableClass l.show "esv_text"]
                [ span
@@ -253,7 +251,7 @@ thisText model lessons =
                   , versionSelect model l
                   , altReading model l
                   ]
-               , Markdown.toHtml [] l.body
+               , Markdown.toHtmlWith {githubFlavored = Just { tables = False, breaks = False}, defaultHighlighting = Nothing, sanitize = False, smartypants = False} [] l.body
                ]
           else
             div [id l.id, hideableClass l.show "esv_text"]
@@ -262,7 +260,7 @@ thisText model lessons =
                 , versionSelect model l
                 , altReading model l
                 ]
-            , Markdown.toHtml [] l.body
+            , Markdown.toHtmlWith {githubFlavored = Just { tables = False, breaks = False}, defaultHighlighting = Nothing, sanitize = False, smartypants = False} [] l.body
             ]
   in
     List.map this_text lessons

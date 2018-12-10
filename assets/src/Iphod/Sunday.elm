@@ -263,7 +263,7 @@ thisText model lessons =
                 , versionSelect model l
                 , altReading model l
                 ]
-            , Markdown.toHtml [] l.body
+            , Markdown.toHtmlWith {githubFlavored = Just { tables = False, breaks = False}, defaultHighlighting = Nothing, sanitize = False, smartypants = False} [] l.body
             ]
   in
     List.map this_text lessons
