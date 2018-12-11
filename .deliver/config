@@ -1,24 +1,29 @@
 #!/usr/bin/env bash
 
 APP="iphod"
+DROPLET="68.183.19.169"
 
-BUILD_HOST="104.131.112.206"
+BUILD_HOST=$DROPLET
 BUILD_USER="frpaulas"
-BUILD_AT="/home/frpaulas/legereme.com/iphod_build"
-# RELEASE_DIR="/home/frpaulas/iphod_prod"
-RELEASE_STORE=frpaulas@legereme.com:/home/frpaulas/legereme.com/iphod_release_store
+BUILD_AT="/tmp/edeliver/$APP/builds"
+RELEASE_STORE="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
 
-STAGING_HOSTS="104.131.112.206"
-STAGING_USER="frpaulas"
-DELIVER_TO="/home/frpaulas/legereme.com"
+GIT_CLEAN_PATHS="_build rel priv/static"
 
-TEST_AT="/home/frpaulas/iphod_stage"
+# STAGING_HOSTS="68.183.19.169"
+# STAGING_USER="frpaulas"
+# DELIVER_TO="/home/frpaulas/legereme.com"
 
-PRODUCTION_HOSTS="104.131.112.206"
+# TEST_AT="/home/frpaulas/iphod_stage"
+
+PRODUCTION_HOSTS=$DROPLET
 PRODUCTION_USER="frpaulas"
+DELIVER_TO="home/frpaulas"
+
+# For *phoneix* projects, symlink prod.secret.exs to our tmp source
 
 pre_erlang_get_and_update_deps() {
-  local _prod_secret_path="/var/iphod/config.prod.exs"
+  local _prod_secret_path="/home/frpaulas/Iphod/prod.secret.exs"
   if [ "$TARGET_MIX_ENV" = "prod" ]; then
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
@@ -27,35 +32,20 @@ pre_erlang_get_and_update_deps() {
 }
 
 pre_erlang_clean_compile() {
-    status "Installing NPM dependencies"
-    __sync_remote "  # runs the commands on the build host
-      [ -f ~/.profile ] && source ~/.profile # load profile
-      set -e # fail if any command fails
+  status "Running phoenix.digest" # log output prepended with "----->"
+  __sync_remote " # runs the commands on the build host
+    # [ -f ~/.profile ] && source ~/.profile # load profile (optional)
+    source ~/.profile
+    # echo \$PATH # check if rbenv is in the path
+    set -e # fail if any command fails (recommended)
+    cd '$BUILD_AT' # enter the build directory on the build host (required)
+    # prepare something
+    mkdir -p priv/static # required by the phoenix.digest task
+    npm install 
 
-      cd '$BUILD_AT' # go to the build directory on the build host
-      cd assets
-      npm install $SILENCE
+    ./node_modules/brunch/bin/brunch build --production 
 
-    "
-
-
-    status "Building static files"
-    status $BUILD_AT
-    __sync_remote "
-      [ -f ~/.profile ]
-      set -e
-
-      cd '$BUILD_AT/assets'
-      mkdir -p priv/static
-      npm run deploy $SILENCE
-    "
-
-    status "Running phoenix.digest"
-    __sync_remote "
-      [ -f ~/.profile ] && source ~/.profile
-      set -e
-
-      cd '$BUILD_AT'
-      APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phoenix.digest $SILENCE
-    "
-  }
+    # run your custom task
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phoenix.digest $SILENCE
+  "
+}
