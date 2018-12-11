@@ -9,6 +9,8 @@ defmodule IphodWeb.PrayerController do
 
   def now(conn, params) do
     dt = params["time"] |> Timex.parse!("%Y-%m-%d-%H", :strftime)
+    psalm = if params["psalm"] == "undefined", do: "BCP", else: params["psalm"]
+    text = if params["text"] == "undefined", do: "ESV", else: params["text"]
 
     office =
       cond do
@@ -18,7 +20,7 @@ defmodule IphodWeb.PrayerController do
         true -> "compline"
       end
 
-    model = prayer_model(office, params["psalm"], params["text"], dt)
+    model = prayer_model(office, psalm, text, dt)
 
     conn
     |> put_layout("app.html")
