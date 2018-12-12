@@ -11,15 +11,15 @@ use Mix.Config
 # before starting your production server.
 config :iphod, IphodWeb.Endpoint,
   http: [:inet6, port: {:system, "PORT"}],
-#  url: [host: "localhost", port: {:system, "PORT"}],
-   url: [host: "legereme.com", port: 443],
-   https: [
-     :inet6,
-     port: 443,
-     cipher_suite: :strong,
-     keyfile: System.get_env("SSL_KEY_PATH"),
-     certfile: System.get_env("SSL_CERT_PATH")
-  ],SS
+  #  url: [host: "localhost", port: {:system, "PORT"}],
+  url: [host: "legereme.com", port: 443],
+  https: [
+    :inet6,
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
+  ],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false,
@@ -92,6 +92,5 @@ config :phoenix, :serve_endpoints, true
 #   root: ".",
 #   server: true,
 #   version: Mix.Project.config()[:version]
-
 
 import_config "prod.secret.exs"
