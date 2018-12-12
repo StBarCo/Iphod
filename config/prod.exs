@@ -10,8 +10,16 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :iphod, IphodWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "localhost", port: {:system, "PORT"}],
+  http: [:inet6, port: {system: "PORT"} || 4000],
+#  url: [host: "localhost", port: {:system, "PORT"}],
+   url: [host: "legereme.com", port: 443],
+   https: [
+     :inet6,
+     port: 443,
+     cipher_suite: :strong,
+     keyfile: System.get_env("SSL_KEY_PATH"),
+     certfile: System.get_env("SSL_CERT_PATH")
+  ],SS
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false,

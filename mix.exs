@@ -20,7 +20,7 @@ defmodule Iphod.MixProject do
   def application do
     [
       mod: {Iphod.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :edeliver]
     ]
   end
 
@@ -56,8 +56,8 @@ defmodule Iphod.MixProject do
       {:mix_test_watch, "~> 0.2.6", only: :dev},
       {:comeonin, "~> 3.0"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
-      {:edeliver, "~> 1.4.0"},
-      {:distillery, "~> 1.2"},
+      {:edeliver, "~> 1.6.0"},
+      {:distillery, "~> 2.0", warn_missing: false},
       {:exactor, "~> 2.2.4"},
       {:conform, "~> 2.5.2"}
     ]
