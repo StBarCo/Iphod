@@ -10,7 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :iphod, IphodWeb.Endpoint,
-  http: [:inet6, port: {system: "PORT"}],
+  http: [:inet6, port: {:system, "PORT"}],
 #  url: [host: "localhost", port: {:system, "PORT"}],
    url: [host: "legereme.com", port: 443],
    https: [
