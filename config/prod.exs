@@ -10,13 +10,6 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 
-IO.puts("HOST: #{System.get_env("PROD_HOST")}")
-IO.puts("PORT: #{System.get_env("PORT")}")
-IO.puts("PROD_PORT: #{System.get_env("PROD_SECRET")}")
-IO.puts("PROD_SECRET: #{System.get_env("PROD_PORT")}")
-IO.puts("SSL KEY PATH: #{System.get_env("SSL_KEY_PATH")}")
-IO.puts("SSL CERT PATH: #{System.get_env("SSL_CERT_PATH")}")
-
 config :iphod, IphodWeb.Endpoint,
   http: [:inet6, port: {:system, "PORT"}],
   #  url: [host: "localhost", port: {:system, "PORT"}],
