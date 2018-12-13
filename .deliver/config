@@ -18,12 +18,12 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 
 PRODUCTION_HOSTS=$DROPLET
 PRODUCTION_USER="frpaulas"
-DELIVER_TO="home/frpaulas"
+DELIVER_TO="/home/frpaulas"
 
 # For *phoneix* projects, symlink prod.secret.exs to our tmp source
 
 pre_erlang_get_and_update_deps() {
-  local _prod_secret_path="/home/frpaulas/Iphod/prod.secret.exs"
+  local _prod_secret_path="/var/iphod/prod.secret.exs"
   if [ "$TARGET_MIX_ENV" = "prod" ]; then
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'

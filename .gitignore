@@ -46,3 +46,7 @@ assets/node_modules/
 assets/elm/vendor/
 .deliver/releases/
 .deliver/releases/
+
+assets/src/elm-stuff/
+priv/cert/
+mix.lock
