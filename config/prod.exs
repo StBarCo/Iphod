@@ -93,4 +93,4 @@ config :phoenix, :serve_endpoints, true
 #   server: true,
 #   version: Mix.Project.config()[:version]
 
-import_config "prod.secret.exs"
+import_config System.get_env("PROD_SECRET")
