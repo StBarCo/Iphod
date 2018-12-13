@@ -12,16 +12,17 @@ use Mix.Config
 config :iphod, IphodWeb.Endpoint,
   http: [:inet6, port: {:system, "PORT"}],
   #  url: [host: "localhost", port: {:system, "PORT"}],
-  url: [host: "legereme.com", port: 443],
+  url: [host: System.get_env("PROD_HOST"), port: System.get_env("PROD_PORT")],
   https: [
     :inet6,
-    port: 443,
+    port: System.get_env("PROD_PORT"),
     cipher_suite: :strong,
     keyfile: System.get_env("SSL_KEY_PATH"),
     certfile: System.get_env("SSL_CERT_PATH")
   ],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
+  root: ".",
   code_reloader: false,
   version: Mix.Project.config()[:version]
 

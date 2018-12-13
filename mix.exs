@@ -20,7 +20,11 @@ defmodule Iphod.MixProject do
   def application do
     [
       mod: {Iphod.Application, []},
-      extra_applications: [:logger, :runtime_tools, :edeliver]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :edeliver
+      ]
     ]
   end
 
