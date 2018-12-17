@@ -13,7 +13,7 @@ defmodule EsvText do
 
   {:ok, jn}=:httpc.request(:get, {'https://api.esv.org/v3/passage/text/?q=John+11:35-7', [{'Authorization', 'Token ' ++ @esvKey}]}, [], [])
   {resp-3tuple, list-of-header-stuff-tuples, query-resp-json}
-  query_map = query-resp-json |> Poison.decode!
+  query_map = query-resp-json |> Jason.decode!
   vss = query_map["passages"]
   s = vss |> Enum.join( " " )
 
@@ -32,7 +32,7 @@ defmodule EsvText do
 
     case resp do
       {:ok, {{_, _, 'OK'}, _, jsonresp}} ->
-        passages = jsonresp |> Poison.decode!() |> Map.get("passages")
+        passages = jsonresp |> Jason.decode!() |> Map.get("passages")
 
         if passages |> length == 0 do
           LocalText.request("web", vss)
@@ -43,7 +43,7 @@ defmodule EsvText do
       {:ok, {{_, returnCode, what}, _, jsonresp}} ->
         why =
           jsonresp
-          |> Poison.decode!()
+          |> Jason.decode!()
           |> Map.get("detail")
 
         [what, why] |> Enum.join(": ")
@@ -67,7 +67,7 @@ defmodule EsvText do
 
     case resp do
       {:ok, {{_, _, 'OK'}, _, jsonresp}} ->
-        passages = jsonresp |> Poison.decode!() |> Map.get("passages")
+        passages = jsonresp |> Jason.decode!() |> Map.get("passages")
 
         if passages |> length == 0 do
           LocalText.request("web", keywords)
@@ -83,7 +83,7 @@ defmodule EsvText do
       {:ok, {{_, returnCode, what}, _, jsonresp}} ->
         why =
           jsonresp
-          |> Poison.decode!()
+          |> Jason.decode!()
           |> Map.get("detail")
 
         [what, why] |> Enum.join(": ")

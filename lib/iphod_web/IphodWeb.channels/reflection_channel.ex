@@ -1,5 +1,5 @@
 require IEx
-require Poison
+require Jason
 require Ecto.Query
 alias Iphod.Repo
 alias Iphod.Reflection
@@ -9,7 +9,7 @@ defmodule IphodWeb.ReflectionChannel do
 
   def join("reflection", payload, socket) do
     if authorized?(payload) do
-      send self(), :after_join
+      send(self(), :after_join)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -21,41 +21,63 @@ defmodule IphodWeb.ReflectionChannel do
   end
 
   def handle_in("reset", id, socket) do
-    {id, date, author, markdown, published} = 
-      Repo.one( from r in Reflection, 
-                where: ^id == r.id, 
-                select: {r.id, r.date, r.author, r.markdown, r.published})
-      push socket, "reflection", %{id: id, date: date, author: author, text: markdown, published: published}
+    {id, date, author, markdown, published} =
+      Repo.one(
+        from(r in Reflection,
+          where: ^id == r.id,
+          select: {r.id, r.date, r.author, r.markdown, r.published}
+        )
+      )
+
+    push(socket, "reflection", %{
+      id: id,
+      date: date,
+      author: author,
+      text: markdown,
+      published: published
+    })
+
     {:noreply, socket}
   end
 
   def handle_in("submit", [0, date, text, author, published], socket) do
     # refl = Repo.insert!(Reflection, id)
     # changeset = Reflection.changeset(refl, %{date: date, markdown: text, author: author, published: published})
-    case Repo.insert( %Reflection{date: date, markdown: text, author: author, published: published}) do
-      {:ok, _user} -> 
-        push socket, "submitted", %{resp: "ok"}
+    case Repo.insert(%Reflection{date: date, markdown: text, author: author, published: published}) do
+      {:ok, _user} ->
+        push(socket, "submitted", %{resp: "ok"})
+
       {:error, _changeset} ->
-        push socket, "submitted", %{resp: "error"}
+        push(socket, "submitted", %{resp: "error"})
     end
+
     {:noreply, socket}
   end
 
   def handle_in("submit", [id, date, text, author, published], socket) do
     refl = Repo.get!(Reflection, id)
-    changeset = Reflection.changeset(refl, %{id: id, date: date, markdown: text, author: author, published: published})
+
+    changeset =
+      Reflection.changeset(refl, %{
+        id: id,
+        date: date,
+        markdown: text,
+        author: author,
+        published: published
+      })
+
     case Repo.update(changeset) do
-      {:ok, _user} -> 
-        push socket, "submitted", %{resp: "ok"}
+      {:ok, _user} ->
+        push(socket, "submitted", %{resp: "ok"})
+
       {:error, _changeset} ->
-        push socket, "submitted", %{resp: "error"}
+        push(socket, "submitted", %{resp: "error"})
     end
+
     {:noreply, socket}
   end
-
 
   defp authorized?(_payload) do
     true
   end
-  
 end
