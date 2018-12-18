@@ -8,6 +8,9 @@ BUILD_USER="frpaulas"
 BUILD_AT="/tmp/edeliver/$APP/builds"
 RELEASE_STORE="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
 
+START_DEPLOY=true
+CLEAN_DEPLOY=true
+
 GIT_CLEAN_PATHS="_build rel priv/static"
 
 # STAGING_HOSTS="68.183.19.169"
@@ -16,9 +19,9 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
-PRODUCTION_HOSTS=$DROPLET
+PRODUCTION_HOSTS="legereme.com"
 PRODUCTION_USER="frpaulas"
-DELIVER_TO="/home/frpaulas"
+DELIVER_TO="/home/frpaulas/Iphod"
 
 # For *phoneix* projects, symlink prod.secret.exs to our tmp source
 
