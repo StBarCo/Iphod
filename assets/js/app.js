@@ -297,30 +297,34 @@ if ( page == "calendar" || page == "mindex") {
     })
 
     $("#m-reading-container").click( function() {
-      $("#reading-panel").effect("drop", "fast");
+      $("#reading-panel").show();
     });
 
 
     channel.on('reflection_today', data => {
       elmMindexApp.ports.portReflection.send(data);
+      $("#reading-panel").hide();
       rollup();
     })
 
     channel.on('eu_today', data => {
       data.config = init_config_model();
       elmMindexApp.ports.portEU.send(data);
+      $("#reading-panel").hide();
       rollup();
     })
 
     channel.on('mp_today', data => {
       data.config = init_config_model();
-      elmMindexApp.ports.portMP.send(data)
+      elmMindexApp.ports.portMP.send(data);
+      $("#reading-panel").hide();
       rollup();
     })
 
     channel.on('ep_today', data => {
       data.config = init_config_model();
-      elmMindexApp.ports.portEP.send(data)
+      elmMindexApp.ports.portEP.send(data);
+      $("#reading-panel").hide();
       rollup();
     })
 
@@ -372,7 +376,7 @@ if ( page == "calendar" || page == "mindex") {
             , sectionUpdate: { section : "", version : "", ref : "" }
             }
       elmMPanelApp.ports.portReadings.send(readings);
-      $("#reading-panel").effect("slide", "fast")
+      $("#reading-panel").show();
     })
 
     elmMPanelApp.ports.requestService.subscribe( function(request) {

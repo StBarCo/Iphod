@@ -209,6 +209,7 @@
 }
 
 #reading-menu button {
+  color: black;
   border-color: lightblue;
   border-width: 2px;
   border-radius: 4px;

@@ -451,6 +451,7 @@ li.offices-item {
   }
   
   .collect_hide{
+    display: none;
     position: relative;
     margin-left: 0em;
   }
