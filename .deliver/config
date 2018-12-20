@@ -19,9 +19,9 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
-PRODUCTION_HOSTS="legereme.com"
-PRODUCTION_USER="frpaulas"
-DELIVER_TO="/home/frpaulas/Iphod"
+PRODUCTION_HOSTS=$DROPLET
+# PRODUCTION_USER="frpaulas"
+# DELIVER_TO="/home/frpaulas/Iphod"
 
 # For *phoneix* projects, symlink prod.secret.exs to our tmp source
 

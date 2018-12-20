@@ -39,7 +39,7 @@ module.exports = (env, options) => ({
            options: {
               pathToElm: elmPath, // don't use globally installed elm
               cwd: elmFolder,
-              debug: options.mode === "development"
+              debug: false // options.mode === "development"
             }
          }
      },
