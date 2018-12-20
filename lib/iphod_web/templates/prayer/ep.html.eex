@@ -1,5 +1,5 @@
-<h1><%= dgettext "ep", "Daily Evening Prayer"%></h1>
-<h5><%=@model.date%></h5>
+<h1 class="title1"><%= dgettext "ep", "Daily Evening Prayer"%></h1>
+<h5 class="title1"><%=@model.date%></h5>
 <p class="title2">
     <em><%= dgettext "ep", "Approved for Provincial Use"%></em>
     <%= dgettext "ep", "The Anglican Church in North America"%><br>
