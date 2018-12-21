@@ -19,7 +19,6 @@ import "../css/menu_styles.css";
 import "../css/print.css";
 import "../css/resources.css";
 import "../css/stations.css";
-import $ from 'jquery';
 
 import { Elm as ElmStations } from '../src/Stations.elm';
 // import { Elm as ElmHeader } from "../src/Header.elm"
@@ -29,6 +28,8 @@ import { Elm as ElmIphod } from '../src/Iphod.elm';
 import { Elm as ElmTranslations } from '../src/Translations.elm';
 import { Elm as ElmResources } from '../src/Resources.elm';
 import { Elm as ElmReflections } from '../src/NewReflection.elm';
+
+import $ from 'jquery';
 
 var moment = require('moment');
 var markdown = require('markdown').markdown;
