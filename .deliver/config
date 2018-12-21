@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 APP="iphod"
+LEGEREME="legereme.com"
 DROPLET="68.183.19.169"
 
 BUILD_HOST=$DROPLET
@@ -19,7 +20,7 @@ DELIVER_TO="/home/frpaulas/iphod"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
-PRODUCTION_HOSTS=$APP
+PRODUCTION_HOSTS=$LEGEREME
 PRODUCTION_USER="frpaulas"
 DELIVER_TO="/home/frpaulas/iphod"
 
