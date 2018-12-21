@@ -19,7 +19,7 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
-PRODUCTION_HOSTS=$DROPLET
+PRODUCTION_HOSTS=$APP
 PRODUCTION_USER="frpaulas"
 DELIVER_TO="/home/frpaulas/iphod"
 
