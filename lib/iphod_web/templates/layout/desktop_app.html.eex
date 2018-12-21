@@ -17,7 +17,6 @@
     <link rel="apple-touch-icon" href="/priv/apple-touch-icon.png" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="<%= Routes.static_url(@conn, "/css/app.css") %>"  />
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,6 +27,7 @@
       ga('send', 'pageview');
     
     </script>
+    <link rel="stylesheet" type="text/css" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
   </head>
 
   <body class= <%= @page_controller %> >
@@ -93,10 +93,22 @@
     </header>
     <input id="csrf_token" type="hidden" name="csrf-token" value="<%= get_csrf_token() %>" >
 
-    <div id="container">
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+<main role="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <input id="csrf_token" type="hidden" name="csrf-token" value="<%= get_csrf_token() %>" >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                <main role="main">
+                <%= render @view_module, @view_template, assigns %>
+                </main>
+            </div>
+        </div>
+    </div>
+</main>
 
     </div> <!-- /container -->
     <div id="cal-elm-container"></div>
