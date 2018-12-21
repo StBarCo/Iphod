@@ -36,7 +36,7 @@ var markdown = require('markdown').markdown;
 var channel = socket.channel("iphod:readings");
 channel.join()
   .receive("ok", resp => {
-    //console.log("OK: joined iphod:readings")
+    // console.log("OK: ", resp)
   })
   .receive("error", resp => { console.log("Unable to join Iphod", resp)});
 
@@ -288,6 +288,7 @@ if ( page == "calendar" || page == "mindex") {
     , elmMPanelDiv = document.getElementById('m-reading-container')
     , elmMPanelApp = ElmMPanel.MPanel.init({node: elmMPanelDiv})
     ;
+
     $("#reflection-today-button").click( function() {
       channel.push("get_text", ["Reflection", (new Date).toDateString(), version_list()])
     });

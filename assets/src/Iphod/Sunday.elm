@@ -167,10 +167,6 @@ view model =
       [ caption
         [ hideableClass model.show "SundayTitleStyle" ]
         [ span [onClick ToggleModelShow] [text model.title]
-        , p []
-          [ button [ class "button collect-button", onClick ToggleCollect]
-            [text "Collect"]
-          ]
         ]
       , tr
           [ class "rowStyle" ]
