@@ -1176,7 +1176,7 @@ defmodule DailyReading do
         epp: [{129, 1, 999}, {130, 1, 999}, {131, 1, 999}]
       },
       "February24" => %{
-        title: "Matthias",
+        title: "St. Matthias",
         mp1: [%{style: "req", read: "Acts 1:15-26"}],
         mp2: [%{style: "req", read: "Matt 9:35-end, 10:1-23"}],
         mpp: [{132, 1, 999}, {133, 1, 999}],
@@ -1788,7 +1788,7 @@ defmodule DailyReading do
         epp: [{124, 1, 999}, {125, 1, 999}, {126, 1, 999}]
       },
       "April25" => %{
-        title: "Mark",
+        title: "St. Mark",
         mp1: [%{style: "req", read: "Acts 12:11-25"}],
         mp2: [%{style: "req", read: "Mark 15"}],
         mpp: [{127, 1, 999}, {128, 1, 999}],
@@ -2211,7 +2211,7 @@ defmodule DailyReading do
         epp: [{102, 1, 999}]
       },
       "June11" => %{
-        title: "Barnabas",
+        title: "St. Barnabas",
         mp1: [%{style: "req", read: "Acts 4"}],
         mp2: [%{style: "req", read: "Luke 22:54-end"}],
         mpp: [{103, 1, 999}],
@@ -2633,7 +2633,7 @@ defmodule DailyReading do
         epp: [{55, 1, 999}]
       },
       "July22" => %{
-        title: "Mary Mag.",
+        title: "St. Mary Magdalene",
         mp1: [%{style: "req", read: "Acts 21:1-16"}],
         mp2: [%{style: "req", read: "Luke 7:36-50"}],
         mpp: [{56, 1, 999}, {57, 1, 999}],
@@ -2667,7 +2667,7 @@ defmodule DailyReading do
         epp: [{65, 1, 999}, {67, 1, 999}]
       },
       "July25" => %{
-        title: "James",
+        title: "St. James",
         mp1: [%{style: "req", read: "Acts 22:23-end, 23:1-11"}],
         mp2: [%{style: "req", read: "Mark 1:16-20"}],
         mpp: [{68, 1, 18}],
@@ -3229,7 +3229,7 @@ defmodule DailyReading do
         epp: [{55, 1, 999}]
       },
       "September21" => %{
-        title: "Matthew",
+        title: "St. Matthew",
         mp1: [%{style: "req", read: "Heb 10:19-end"}],
         mp2: [%{style: "req", read: "Matt 9:9-13"}],
         mpp: [{56, 1, 999}, {57, 1, 999}],
@@ -3301,7 +3301,7 @@ defmodule DailyReading do
         epp: [{75, 1, 999}, {76, 1, 999}]
       },
       "September29" => %{
-        title: "Michael",
+        title: "St. Michael",
         mp1: [%{style: "req", read: "Rev 12:7-12"}],
         mp2: [%{style: "req", read: "Jas 3"}],
         mpp: [{77, 1, 999}],
@@ -3472,7 +3472,7 @@ defmodule DailyReading do
         epp: [{119, 25, 48}]
       },
       "October18" => %{
-        title: "Luke",
+        title: "St. Luke",
         mp1: [%{style: "req", read: "2 John"}],
         mp2: [%{style: "req", read: "Luke 1:1-4"}],
         mpp: [{119, 49, 72}],
@@ -3517,7 +3517,7 @@ defmodule DailyReading do
         epp: [{124, 1, 999}, {125, 1, 999}, {126, 1, 999}]
       },
       "October23" => %{
-        title: "James Jer.",
+        title: "St. James Jerusalem",
         mp1: [%{style: "req", read: "Acts 21:17-26"}],
         mp2: [%{style: "req", read: "Acts 2:22-end"}],
         mpp: [{127, 1, 999}, {128, 1, 999}],
@@ -3859,7 +3859,7 @@ defmodule DailyReading do
         epp: [{79, 1, 999}, {82, 1, 999}]
       },
       "November30" => %{
-        title: "Andrew",
+        title: "St. Andrew",
         mp1: [%{style: "req", read: "Ecclesiasticus 11"}],
         mp2: [%{style: "req", read: "John 1:35-42"}],
         mpp: [{78, 1, 17}],
@@ -4048,7 +4048,7 @@ defmodule DailyReading do
         epp: [{119, 153, 176}]
       },
       "December21" => %{
-        title: "Thomas",
+        title: "St. Thomas",
         mp1: [%{style: "req", read: "Rev 13 "}],
         mp2: [%{style: "req", read: "John 14:1-7"}],
         mpp: [{118, 1, 999}],
@@ -4093,7 +4093,7 @@ defmodule DailyReading do
         epp: [{110, 1, 999}, {45, 1, 999}]
       },
       "December26" => %{
-        title: "Stephen",
+        title: "St. Stephen",
         mp1: [%{style: "req", read: "Acts 6:8-end, 7:1-6, 7:44-60"}],
         mp2: [%{style: "req", read: "Rev 18"}],
         mpp: [{136, 1, 999}],
@@ -4102,7 +4102,7 @@ defmodule DailyReading do
         epp: [{137, 1, 999}, {138, 1, 999}]
       },
       "December27" => %{
-        title: "John",
+        title: "St. John",
         mp1: [%{style: "req", read: "Rev 19"}],
         mp2: [%{style: "req", read: "John 21:9-25"}],
         mpp: [{139, 1, 999}],
@@ -4111,7 +4111,7 @@ defmodule DailyReading do
         epp: [{141, 1, 999}, {142, 1, 999}]
       },
       "December28" => %{
-        title: "Innocents",
+        title: "Holy Innocents",
         mp1: [%{style: "req", read: "Jer 31:1-17"}],
         mp2: [%{style: "req", read: "Rev 20"}],
         mpp: [{140, 1, 999}],
