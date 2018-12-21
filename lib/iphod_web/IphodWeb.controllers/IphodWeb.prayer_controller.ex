@@ -195,6 +195,8 @@ defmodule IphodWeb.PrayerController do
   def translations(map) do
     psalm = if map |> Map.has_key?("psalm"), do: map["psalm"], else: "Coverdale"
     text = if map |> Map.has_key?("text"), do: map["text"], else: "ESV"
+    psalm = if psalm == "undefined", do: "BCP", else: psalm
+    text = if text == "undefined", do: "ESV", else: text
     {psalm, text}
   end
 
