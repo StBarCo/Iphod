@@ -1,4 +1,7 @@
 <h1 class="title1"><%= dgettext "ep", "Daily Evening Prayer"%></h1>
+<%= if @model.season == "redLetter" do %>
+    <h5 class= "title1">Feast of <%= @model.title %></h5>
+<% end %>
 <h5 class="title1"><%=@model.date%></h5>
 <p class="title2">
     <em><%= dgettext "ep", "Approved for Provincial Use"%></em>
@@ -16,7 +19,13 @@ The Confession of Sin may be said, or the Office may continue with
 </p>
 
 <p id="opening_scripture" class= "section"><%= dgettext "ep", "Opening Sentences of Scripture"%></p>
-<p class= "rubric_black"><%=@model.season |> String.capitalize%></p>
+
+<%= if @model.season == "redLetter" do %>
+    <p class="rubric_black"><%=@model.title %></p>
+<% else %>
+    <p class="rubric_black"><%=@model.season |> String.capitalize%></p>
+<% end %>
+
 <p>
     <%= Gettext.dgettext IphodWeb.Gettext, "ep_opening", @model.opening_sentence %>
     <span class= "bible_ref"><%= Gettext.dgettext IphodWeb.Gettext, "ep_opening", @model.opening_sentence_ref %></span>

@@ -1,4 +1,8 @@
 <h1 class="title1"><%= dgettext "mp", "Daily Morning Prayer"%></h1>
+<%= if @model.season == "redLetter" do %>
+    <h5 class= "title1">Feast of <%= @model.title %></h5>
+<% end %>
+
 <h5 class="title1"><%=@model.date%></h5>
 <p class= "title2">
     <em><%= dgettext "mp", "Approved for Provincial Use"%></em><br>
@@ -13,7 +17,13 @@
     """%></em>
 </p>
 <p id="opening_scripture" class= "section"><%= dgettext "mp", "Opening Sentences of Scripture"%></p>
-<p class="rubric_black"><%=@model.season |> String.capitalize%></p>
+
+<%= if @model.season == "redLetter" do %>
+    <p class="rubric_black"><%=@model.title %></p>
+<% else %>
+    <p class="rubric_black"><%=@model.season |> String.capitalize%></p>
+<% end %>
+
 <p>
     <%= Gettext.dgettext IphodWeb.Gettext, "mp_opening", @model.opening_sentence %>
     <span class= "bible_ref"><%= Gettext.dgettext IphodWeb.Gettext, "mp_opening", @model.opening_sentence_ref%></span>
@@ -26,7 +36,13 @@
 
 <p class= "rubric"><%= dgettext "mp", "Then follows the Venite. Alternatively, the Jubilate may be used."%></p>
 <p class= "rubric"><%= dgettext "mp", "These seasonal antiphons may be sung or said before and after the Invitatory Psalm."%></p>
-<p class= "rubric_black"><%= Gettext.dgettext IphodWeb.Gettext, "antiphon", @model.season |> String.capitalize %></p>
+
+<%= if @model.season == "redLetter" do %>
+    <p class= "rubric_black"><%= Gettext.dgettext IphodWeb.Gettext, "antiphon", @model.title %></p>
+<% else %>
+    <p class= "rubric_black"><%= Gettext.dgettext IphodWeb.Gettext, "antiphon", @model.season |> String.capitalize %></p>
+<% end %>
+
 
 <p><%= Gettext.dgettext IphodWeb.Gettext, "antiphon", @model.antiphon%></p>
 <%= render "_#{@model.invitatory_canticle}.html" %>
