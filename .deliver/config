@@ -4,7 +4,7 @@ APP="iphod"
 LEGEREME="legereme.com"
 DROPLET="68.183.19.169"
 
-BUILD_HOST=$DROPLET
+BUILD_HOST=$LEGEREME
 BUILD_USER="frpaulas"
 BUILD_AT="/tmp/edeliver/$APP/builds"
 RELEASE_STORE="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
@@ -14,9 +14,9 @@ CLEAN_DEPLOY=true
 
 GIT_CLEAN_PATHS="_build rel priv/static"
 
-STAGING_HOSTS=$DROPLET
-STAGING_USER="frpaulas"
-DELIVER_TO="/home/frpaulas/iphod"
+# STAGING_HOSTS=$DROPLET
+# STAGING_USER="frpaulas"
+# DELIVER_TO="/home/frpaulas/iphod"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
