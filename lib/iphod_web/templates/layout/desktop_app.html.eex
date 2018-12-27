@@ -27,7 +27,7 @@
       ga('send', 'pageview');
     
     </script>
-    <link rel="stylesheet" type="text/css" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+    <link rel="stylesheet" type="text/css" href="<%= Routes.static_url(@conn, "/css/app.css") %>" />
   </head>
 
   <body class= <%= @page_controller %> >
