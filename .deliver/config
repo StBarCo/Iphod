@@ -5,7 +5,7 @@ LEGEREME="legereme.com"
 DROPLET="68.183.19.169"
 
 BUILD_HOST=$LEGEREME
-BUILD_USER="frpaulas"
+BUILD_USER="deploy"
 BUILD_AT="/tmp/edeliver/$APP/builds"
 RELEASE_STORE="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
 
@@ -21,8 +21,8 @@ GIT_CLEAN_PATHS="_build rel priv/static"
 # TEST_AT="/home/frpaulas/iphod_stage"
 
 PRODUCTION_HOSTS=$LEGEREME
-PRODUCTION_USER="frpaulas"
-DELIVER_TO="/home/frpaulas/iphod"
+PRODUCTION_USER="deploy"
+DELIVER_TO="/home/deploy"
 
 # For *phoneix* projects, symlink prod.secret.exs to our tmp source
 
