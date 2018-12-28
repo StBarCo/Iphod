@@ -64,6 +64,13 @@ defmodule IphodWeb.IphodChannel do
     }
   end
 
+  def handle_info(:ping, socket) do
+    count = socket.assigns[:count] || 1
+    IO.puts(">>>>>PING CLIENT: #{count}")
+    push(socket, "ping", %{count: count})
+    {:noreply, assign(socket, :count, count + 1)}
+  end
+
   def handle_request("request_user", [_username, token], socket) do
     # if the token is valid get the user, else blork
     # max_age: in seconds, 1209600 = seconds in 2 weeks
@@ -71,13 +78,6 @@ defmodule IphodWeb.IphodChannel do
     # IO.puts ">>>>> LOGIN: #{inspect resp}\n>>>>> #{username}, #{token}\n>>>>> #{inspect socket}"
     confirm_user(resp, token, socket)
     {:noreply, socket}
-  end
-
-  def handle_info(:ping, socket) do
-    count = socket.assigns[:count] || 1
-    IO.puts(">>>>>PING CLIENT: #{count}")
-    push(socket, "ping", %{count: count})
-    {:noreply, assign(socket, :count, count + 1)}
   end
 
   def handle_request("ping", arg, socket) do
@@ -158,6 +158,7 @@ defmodule IphodWeb.IphodChannel do
 
   def handle_request("get_text", ["MP", date, versions], socket) do
     day = text_to_date(date)
+    IO.puts("HANDLING REQUEST MP: #{date}")
     push(socket, "mp_today", DailyReading.mp_body(day, versions_map(:mp, versions)))
     {:noreply, socket}
   end
