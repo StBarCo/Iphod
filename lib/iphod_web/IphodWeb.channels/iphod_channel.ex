@@ -15,7 +15,7 @@ defmodule IphodWeb.IphodChannel do
   def join("iphod:readings", payload, socket) do
     if authorized?(payload) do
       # send self(), :after_join
-      :timer.send_interval(5_000, :ping)
+      # :timer.send_interval(5_000, :ping)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
