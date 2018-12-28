@@ -41,6 +41,8 @@ channel.join()
   })
   .receive("error", resp => { console.log("Unable to join Iphod", resp)});
 
+channel.on("ping", ({count}) => console.log("SERVER PINGED: ", count))
+
 var elmCalDiv = document.getElementById('cal-elm-container')
   , elmCalApp = ElmIphod.Iphod.init({node: elmCalDiv})
   ;

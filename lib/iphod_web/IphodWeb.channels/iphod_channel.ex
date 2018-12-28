@@ -15,6 +15,7 @@ defmodule IphodWeb.IphodChannel do
   def join("iphod:readings", payload, socket) do
     if authorized?(payload) do
       # send self(), :after_join
+      :timer.send_interval(5_000, :ping)
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -72,9 +73,18 @@ defmodule IphodWeb.IphodChannel do
     {:noreply, socket}
   end
 
+  def handle_info(:ping, socket) do
+    count = socket.assigns[:count] || 1
+    IO.puts(">>>>>PING CLIENT: #{count}")
+    push(socket, "ping", %{count: count})
+    {:noreply, assign(socket, :count, count + 1)}
+  end
+
   def handle_request("ping", arg, socket) do
-    IO.puts(">>>>>PING: #{inspect(arg)}")
-    {:noreply, socket}
+    IO.puts(">>>>>GOT PING FROM CLIENT: #{inspect(arg)}")
+    count = socket.assigns[:count] || 1
+    push(socket, "pong", %{count: count})
+    {:noreply, assign(socket, :count, count + 1)}
   end
 
   def handle_request("init_calendar", _, socket) do
