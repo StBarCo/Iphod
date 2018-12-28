@@ -5,6 +5,7 @@ defmodule IphodWeb.PrayerController do
   use Timex
   import Iphod.DailyOptions, only: [get_daily_options: 2]
   import BibleText, only: [lesson_with_body: 2]
+  import Collects, only: [collect: 1]
   @tz "America/Los_Angeles"
 
   def now(conn, params) do
@@ -214,7 +215,7 @@ defmodule IphodWeb.PrayerController do
     day_of_week = day |> Timex.weekday() |> Timex.day_name()
     {sent, ref} = DailyReading.opening_sentence("mp", day)
     dreading = DailyReading.readings(day)
-    {invitatory, collect} = get_daily_options(day, dreading)
+    {invitatory, _collect} = get_daily_options(day, dreading)
 
     dreading
     |> Map.put(:opening_sentence, sent)
@@ -226,7 +227,7 @@ defmodule IphodWeb.PrayerController do
     |> put_reading(dreading[:mp2], text_translation)
     |> Map.put(:ot_canticle, put_canticle("mp", "ot", season, day_of_week))
     |> Map.put(:nt_canticle, put_canticle("mp", "nt", season, day_of_week))
-    |> Map.put(:collect_of_week, collect)
+    |> Map.put(:collect_of_week, Collects.collect(dreading.week))
     |> Map.put(:day, day_of_week)
     |> Map.put(:reflID, reflectionID(day))
   end
@@ -237,7 +238,7 @@ defmodule IphodWeb.PrayerController do
     day_of_week = day |> Timex.weekday() |> Timex.day_name()
     {sent, ref} = DailyReading.opening_sentence("ep", day)
     dreading = DailyReading.readings(day)
-    {invitatory, collect} = get_daily_options(day, dreading)
+    {invitatory, _collect} = get_daily_options(day, dreading)
 
     dreading
     |> Map.put(:opening_sentence, sent)
@@ -249,7 +250,7 @@ defmodule IphodWeb.PrayerController do
     |> put_reading(dreading[:ep2], text_translation)
     |> Map.put(:ot_canticle, put_canticle("ep", "ot", season, day_of_week))
     |> Map.put(:nt_canticle, put_canticle("ep", "nt", season, day_of_week))
-    |> Map.put(:collect_of_week, collect)
+    |> Map.put(:collect_of_week, Collects.collect(dreading.week))
     |> Map.put(:day, day_of_week)
     |> Map.put(:reflID, reflectionID(day))
   end
