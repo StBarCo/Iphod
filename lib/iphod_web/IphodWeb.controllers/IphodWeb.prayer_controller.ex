@@ -215,7 +215,10 @@ defmodule IphodWeb.PrayerController do
     day_of_week = day |> Timex.weekday() |> Timex.day_name()
     {sent, ref} = DailyReading.opening_sentence("mp", day)
     dreading = DailyReading.readings(day)
-    {invitatory, _collect} = get_daily_options(day, dreading)
+    {invitatory, collect} = get_daily_options(day, dreading)
+
+    collect =
+      if dreading.season == "redLetter", do: Collects.collect(dreading.week), else: collect
 
     dreading
     |> Map.put(:opening_sentence, sent)
@@ -227,7 +230,7 @@ defmodule IphodWeb.PrayerController do
     |> put_reading(dreading[:mp2], text_translation)
     |> Map.put(:ot_canticle, put_canticle("mp", "ot", season, day_of_week))
     |> Map.put(:nt_canticle, put_canticle("mp", "nt", season, day_of_week))
-    |> Map.put(:collect_of_week, Collects.collect(dreading.week))
+    |> Map.put(:collect_of_week, collect)
     |> Map.put(:day, day_of_week)
     |> Map.put(:reflID, reflectionID(day))
   end
@@ -238,7 +241,10 @@ defmodule IphodWeb.PrayerController do
     day_of_week = day |> Timex.weekday() |> Timex.day_name()
     {sent, ref} = DailyReading.opening_sentence("ep", day)
     dreading = DailyReading.readings(day)
-    {invitatory, _collect} = get_daily_options(day, dreading)
+    {invitatory, collect} = get_daily_options(day, dreading)
+
+    collect =
+      if dreading.season == "redLetter", do: Collects.collect(dreading.week), else: collect
 
     dreading
     |> Map.put(:opening_sentence, sent)
@@ -250,7 +256,7 @@ defmodule IphodWeb.PrayerController do
     |> put_reading(dreading[:ep2], text_translation)
     |> Map.put(:ot_canticle, put_canticle("ep", "ot", season, day_of_week))
     |> Map.put(:nt_canticle, put_canticle("ep", "nt", season, day_of_week))
-    |> Map.put(:collect_of_week, Collects.collect(dreading.week))
+    |> Map.put(:collect_of_week, collect)
     |> Map.put(:day, day_of_week)
     |> Map.put(:reflID, reflectionID(day))
   end
