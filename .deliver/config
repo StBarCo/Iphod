@@ -14,9 +14,9 @@ CLEAN_DEPLOY=true
 
 GIT_CLEAN_PATHS="_build rel priv/static"
 
-# STAGING_HOSTS=$DROPLET
-# STAGING_USER="frpaulas"
-# DELIVER_TO="/home/frpaulas/iphod"
+STAGING_HOSTS=$DROPLET
+STAGING_USER="frpaulas"
+DELIVER_TO="/home/frpaulas/iphod"
 
 # TEST_AT="/home/frpaulas/iphod_stage"
 
