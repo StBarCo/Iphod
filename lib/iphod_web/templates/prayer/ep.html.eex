@@ -1,4 +1,4 @@
-<h1 class="title1"><%= dgettext "ep", "Daily Evening Prayer"%></h1>
+<h1 class="title1 belowNavBar"><%= dgettext "ep", "Daily Evening Prayer"%></h1>
 <%= if @model.season == "redLetter" do %>
     <h5 class= "title1">Feast of <%= @model.title %></h5>
 <% end %>

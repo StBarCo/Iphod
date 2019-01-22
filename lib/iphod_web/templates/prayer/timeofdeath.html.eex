@@ -1,4 +1,4 @@
-<div class= "mpep">
+<div class= "mpep belowNavBar">
   <p class= "midday"><%= dgettext "np", "Ministration at the Time of Death (BCP)"%></p>
   <p class= "rubric-office"><%= dgettext "tod", """
       When a person is near death, the Minister of the Congregation should be

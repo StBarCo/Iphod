@@ -1,4 +1,4 @@
-<h1><%= dgettext "comp", "Compline"%></h1>
+<h1 class="belowNavBar"><%= dgettext "comp", "Compline"%></h1>
 
 <p class="rubric"><%= dgettext "comp", "The Officiant begins"%></p>
 

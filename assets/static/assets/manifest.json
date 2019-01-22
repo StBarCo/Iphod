@@ -1,0 +1,49 @@
+{ "name": "Legereme - ACNA Offices (unofficial)",
+  "short_name": "Legereme",
+  "icons": [
+    {
+      "src": "/assets/icons/legereme-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/assets/icons/legereme-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/assets/icons/legereme-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/assets/icons/legereme-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/icons/legereme-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/assets/icons/legereme-384x384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "/assets/icons/legereme-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/calendar",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color":"#fff",
+  "theme_color":"#3f51b5",
+  "description":"ACNA Offices and Liturgical Calendar (unofficial)",
+  "dir":"ltr",
+  "lang":"en-US"
+}

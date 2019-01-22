@@ -74,6 +74,13 @@ a.plain {
   }
 }
 
+.navbar-fixed-top {
+  position: fixed;
+  z-index: 9;
+  width: 100%;
+}
+
+.belowNavBar { margin-top: 4rem; }
 .width16p { width: 16%; }
 .width20p { width: 20%; }
 .width90p { width: 90%; }

@@ -1,7 +1,7 @@
 <div id= "m-reading-container"></div> 
 <div class='m-options1'>
 </div>
-<div>
+<div class="belowNavBar" >
   <table id= "calendar">
     <tr>
       <th class= "cal_move_month">

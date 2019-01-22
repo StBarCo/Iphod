@@ -1,4 +1,4 @@
-<div class= "mpep">
+<div class= "mpep belowNavBar">
   <p class= "midday"><%= dgettext "np", "Communion of the Sick"%></p>
   <p class="rubric-office"><%= dgettext "sick", "The Minister begins"%></p>
   <p class="office"><%= dgettext "sick", """

@@ -1,4 +1,4 @@
-<h1><%= dgettext "mp", "Midday Prayer"%></h1>
+<h1 class="belowNavBar" ><%= dgettext "mp", "Midday Prayer"%></h1>
 <p>
     <ul class="versicals">
         <li class="speaker"><%= gettext "Officiant"%></li>

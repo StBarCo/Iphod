@@ -1,4 +1,4 @@
-<div class= "mpep">
+<div class= "mpep belowNavBar">
   <p class= "midday"><%= dgettext "np", "Family Prayer"%></p>
 
   <p> These devotions follow the basic structure of the Daily Office of the Church and are
