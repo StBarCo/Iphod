@@ -57,13 +57,13 @@ defmodule Iphod.MixProject do
       {:mailgun, "~> 0.1.2"},
       {:earmark, "~> 1.3.0"},
       {:dogma, "~> 0.1", only: :dev},
-      {:mix_test_watch, "~> 0.2.6", only: :dev},
       {:comeonin, "~> 3.0"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:edeliver, "~> 1.6.0"},
       {:distillery, "~> 2.0.12", warn_missing: false},
       {:exactor, "~> 2.2.4"},
-      {:conform, "~> 2.5.2"}
+      {:conform, "~> 2.5.2"},
+      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false}
     ]
   end
 
