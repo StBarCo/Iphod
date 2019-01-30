@@ -10,6 +10,38 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 
+# config :iphod, IphodWeb.Endpoint,
+#  # load_from_system_env: true,
+#  http: [port: 4000],
+#  url: [host: "68.183.19.169", port: 4000],
+#  root: ".",
+#  cache_static_manifest: "priv/static/cache_manifest.json",
+#  # secret_key_base: System.get_env("SECRET_KEYBASE"),
+#  secret_key_base: "!jy!R95NwKCk&=kXD_h9+_sUdgY2P_Iu9Db$MM6KdDmsWEV!QS#1Emguzxt#hCrL",
+#  server: true,
+#  code_reloader: false,
+#  version: Mix.Project.config()[:version]
+
+config :iphod, IphodWeb.Endpoint,
+  http: [port: System.get_env("PORT")],
+  url: [host: "localhost", port: System.get_env("PORT")],
+  #  url: [host: "68.183.19.169", port: 443 ],
+  #  http: [ port: 4000],
+  #  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto] ],
+  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil],
+  https: [
+    port: 443,
+    cipher_suite: :compatible,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
+  ],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  server: true,
+  root: ".",
+  code_reloader: false,
+  version: Mix.Project.config()[:version]
+
 import_config "/var/iphod/prod.secret.exs"
 
 # Do not print debug messages in production
