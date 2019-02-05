@@ -2,7 +2,13 @@
 
 APP="iphod"
 LEGEREME="legereme.com"
-DROPLET="68.183.19.169"
+TESTING_DROPLET="68.183.19.169"
+TARGET_MIX_ENV="prod"
+
+# BUILD_HOST=$TESTING_DROPLET
+# BUILD_USER="frpaulas"
+# BUILD_AT="/tmp/edeliver/$APP/builds"
+# RELEASE_STORE="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
 
 BUILD_HOST=$LEGEREME
 BUILD_USER="deploy"
@@ -14,12 +20,16 @@ CLEAN_DEPLOY=true
 
 GIT_CLEAN_PATHS="_build rel priv/static"
 
-STAGING_HOSTS=$DROPLET
-STAGING_USER="frpaulas"
-DELIVER_TO="/home/frpaulas/iphod"
+# PRODUCTION_HOSTS=$TESTING_DROPLET
+# PRODUCTION_USER="frpaulas"
+# DELIVER_TO="/home/frpaulas/Iphod" 
 
-# TEST_AT="/home/frpaulas/iphod_stage"
-
+# STAGING_HOSTS=$DROPLET
+# STAGING_USER="frpaulas"
+# TEST_AT="/home/frpaulas/Iphod"
+# 
+# # TEST_AT="/home/frpaulas/iphod_stage"
+# 
 PRODUCTION_HOSTS=$LEGEREME
 PRODUCTION_USER="deploy"
 DELIVER_TO="/home/deploy"

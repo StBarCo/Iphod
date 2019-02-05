@@ -1118,7 +1118,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "John 18:28-end"}],
         mpp: [{89, 1, 18}],
         ep1: [%{style: "req", read: "Jer 35"}],
-        ep2: [%{style: "req", read: "2 Cor 2:12-3:end"}],
+        ep2: [%{style: "req", read: "2 Cor 2:12-end, 3:1-end"}],
         epp: [{89, 19, 999}]
       },
       # 6 Gen 36 † 1-8 John 19:1-37 90 91 6 Jer 36 † 1-10,19-32 2 Cor 4
