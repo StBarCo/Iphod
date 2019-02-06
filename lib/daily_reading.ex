@@ -798,7 +798,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "John 5:25-end"}],
         mpp: [{25, 1, 999}],
         ep1: [%{style: "req", read: "Jer 9"}],
-        ep2: [%{style: "req", read: "1 Thess 2:17-3:end"}],
+        ep2: [%{style: "req", read: "1 Thess 2:17-end, 3:1-end"}],
         epp: [{27, 1, 999}]
       },
       # 11 Gen 11 † 1-9,27-32 John 6:1-21 26, 28 31 11 Jer 10 1 Thess 4:1-12
@@ -882,7 +882,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "Matt 16:13-20"}],
         mpp: [{45, 1, 999}],
         ep1: [%{style: "req", read: "Jer 17"}],
-        ep2: [%{style: "req", read: "1 Cor 1:26-2:end"}],
+        ep2: [%{style: "req", read: "1 Cor 1:26-end, 2:1-end"}],
         epp: [{46, 1, 999}]
       },
       # 19 Gen 19 † 1-29 John 9 47, 48 49 19 Jer 18 1 Cor 3
@@ -912,7 +912,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "John 10:22-end"}],
         mpp: [{52, 1, 999}, {53, 1, 999}, {54, 1, 999}],
         ep1: [%{style: "req", read: "Jer 20"}],
-        ep2: [%{style: "req", read: "1 Cor 4:18-5:end"}],
+        ep2: [%{style: "req", read: "1 Cor 4:18-end, 5:1-end"}],
         epp: [{55, 1, 999}]
       },
       # 22 Gen 22 John 11:1-44 56, 57 58, 60 22 Jer 21 1 Cor 6
@@ -1244,7 +1244,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "Matt 5:1-20"}],
         mpp: [{111, 1, 999}, {112, 1, 999}],
         ep1: [%{style: "req", read: "Jer 45"}],
-        ep2: [%{style: "req", read: "2 Cor 12:14-13:end"}],
+        ep2: [%{style: "req", read: "2 Cor 12:14-end, 13:1-end"}],
         epp: [{113, 1, 999}, {114, 1, 999}]
       },
       # 16 Gen 46 † 1-7,28-34 Matt 5:21-48 115 116, 117 16 Jer 46 Rom 1
@@ -1793,7 +1793,7 @@ defmodule DailyReading do
           %{style: "opt", read: "Exod 36:21-30"},
           %{style: "req", read: "Exod 36:31-38"}
         ],
-        mp2: [%{style: "req", read: "Matt 27:57-28:end"}],
+        mp2: [%{style: "req", read: "Matt 27:57-end, 28:1-end"}],
         mpp: [{66, 1, 999}],
         ep1: [%{style: "req", read: "Prov 27"}],
         ep2: [%{style: "req", read: "1 Tim 1:1-17"}],
@@ -1810,7 +1810,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "Mark 1:1-13"}],
         mpp: [{71, 1, 999}],
         ep1: [%{style: "req", read: "Prov 28"}],
-        ep2: [%{style: "req", read: "1 Tim 1:18-2:end"}],
+        ep2: [%{style: "req", read: "1 Tim 1:18-end, 2:1-end"}],
         epp: [{73, 1, 999}]
       },
       # 31 Exod 38 † 1-23 Mark 1:14-31 74 77 31 Prov 29 1 Tim 3
@@ -2022,7 +2022,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "Mark 10:32-end"}],
         mpp: [{108, 1, 999}, {110, 1, 999}],
         ep1: [%{style: "req", read: "Job 14"}],
-        ep2: [%{style: "req", read: "Heb 5:11-6:end"}],
+        ep2: [%{style: "req", read: "Heb 5:11-end, 6:1-end"}],
         epp: [{109, 1, 999}]
       },
       # 17 Num 13 † 1-3,17-33 Mark 11:1-26 111, 112 113, 114 17 Job 15 Heb 7
@@ -2145,7 +2145,7 @@ defmodule DailyReading do
         mp1: [%{style: "req", read: "Num 23:1-26"}, %{style: "opt", read: "Num 23:27-end"}],
         mp2: [%{style: "req", read: "Luke 1:1-23"}],
         mpp: [{136, 1, 999}],
-        ep1: [%{style: "req", read: "Job 25:1-26:end"}],
+        ep1: [%{style: "req", read: "Job 25:1-end, 26:1-end"}],
         ep2: [%{style: "req", read: "Jas 1"}],
         epp: [{137, 1, 999}, {138, 1, 999}]
       },
@@ -2820,7 +2820,7 @@ defmodule DailyReading do
       # 24 Nat. Bap. 1 Thess 2:17—3 end Matt 14:1-13 127, 128 129, 130, 131 24 Nat. Bap. Dan 3 Acts 20:1-16
       "June24" => %{
         title: "Feast of the Nativity of John the Baptist",
-        mp1: [%{style: "req", read: "1 Thess 2:27-3:end"}],
+        mp1: [%{style: "req", read: "1 Thess 2:27-end, 3:1-end"}],
         mp2: [%{style: "req", read: "Matt 14:1-13"}],
         mpp: [{127, 1, 999}, {128, 1, 999}],
         ep1: [%{style: "req", read: "Dan 3"}],
@@ -2928,7 +2928,7 @@ defmodule DailyReading do
       "July02" => %{
         title: "",
         mp1: [%{style: "req", read: "Judg 13"}],
-        mp2: [%{style: "req", read: "1 Cor 1:26-2:end"}],
+        mp2: [%{style: "req", read: "1 Cor 1:26-end, 2:1-end"}],
         mpp: [{1, 1, 999}, {2, 1, 999}],
         ep1: [%{style: "req", read: "Dan 11:1-19"}, %{style: "opt", read: "Dan 11:20-end"}],
         ep2: [%{style: "req", read: "Acts 24:24-25:12"}],
@@ -2958,7 +2958,7 @@ defmodule DailyReading do
       "July05" => %{
         title: "",
         mp1: [%{style: "req", read: "Judg 16"}],
-        mp2: [%{style: "req", read: "1 Cor 4:18-5:end"}],
+        mp2: [%{style: "req", read: "1 Cor 4:18-end, 5:1-end"}],
         mpp: [{8, 1, 999}, {11, 1, 999}],
         ep1: [%{style: "req", read: "Esth 1"}],
         ep2: [%{style: "req", read: "Acts 27"}],
@@ -3011,7 +3011,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "1 Cor 10"}],
         mpp: [{25, 1, 999}],
         ep1: [%{style: "req", read: "Esth 6"}],
-        ep2: [%{style: "req", read: "1 Tim 1:18-2:end"}],
+        ep2: [%{style: "req", read: "1 Tim 1:18-end, 2:1-end"}],
         epp: [{27, 1, 999}]
       },
       # 11 1 Sam 2 † 1-21 1 Cor 11 26, 28 31 11 Esth 7 1 Tim 3
@@ -3040,7 +3040,7 @@ defmodule DailyReading do
         mp1: [%{style: "req", read: "1 Sam 4"}],
         mp2: [%{style: "req", read: "1 Cor 13"}],
         mpp: [{34, 1, 999}],
-        ep1: [%{style: "req", read: "Esth 9:1-10:end"}],
+        ep1: [%{style: "req", read: "Esth 9:1-end, 10:1-end"}],
         ep2: [%{style: "req", read: "1 Tim 5"}],
         epp: [{35, 1, 999}]
       },
@@ -3108,7 +3108,7 @@ defmodule DailyReading do
       "July20" => %{
         title: "",
         mp1: [%{style: "req", read: "1 Sam 11"}],
-        mp2: [%{style: "req", read: "2 Cor 2:12-3:end"}],
+        mp2: [%{style: "req", read: "2 Cor 2:12-end, 3:1-end"}],
         mpp: [{50, 1, 999}],
         ep1: [%{style: "opt", read: "Ezra 8:1-20"}, %{style: "req", read: "Ezra 8:21-36"}],
         ep2: [%{style: "req", read: "2 Tim 3"}],
@@ -3222,7 +3222,7 @@ defmodule DailyReading do
       "July30" => %{
         title: "",
         mp1: [%{style: "req", read: "1 Sam 19"}],
-        mp2: [%{style: "req", read: "2 Cor 12:14-13:end"}],
+        mp2: [%{style: "req", read: "2 Cor 12:14-end, 13:1-end"}],
         mpp: [{75, 1, 999}, {76, 1, 999}],
         ep1: [
           %{style: "req", read: "Neh 9:1-15"},
@@ -3768,7 +3768,7 @@ defmodule DailyReading do
           %{style: "opt", read: "1 Kings 6:31-36"},
           %{style: "req", read: "1 Kings 6:37-38"}
         ],
-        mp2: [%{style: "req", read: "Heb 5:11-6:end"}],
+        mp2: [%{style: "req", read: "Heb 5:11-end, 6:1-end"}],
         mpp: [{40, 1, 999}],
         ep1: [%{style: "req", read: "Hab 3"}],
         ep2: [%{style: "req", read: "Matt 12:22-end"}],
@@ -4120,7 +4120,7 @@ defmodule DailyReading do
         mp2: [%{style: "req", read: "1 John 2:7-end"}],
         mpp: [{107, 1, 22}],
         ep1: [%{style: "req", read: "2 Macc 8:1-29"}, %{style: "opt", read: "2 Macc 8:30-end"}],
-        ep2: [%{style: "req", read: "Matt 27:57-28:end"}],
+        ep2: [%{style: "req", read: "Matt 27:57-end, 28:1-end"}],
         epp: [{107, 23, 999}]
       },
       # 14 2 Kings 5 1 John 3:1-10 108, 110 109 14 2 Macc 10 † 1-8,24-38 Mark 1:1-13
