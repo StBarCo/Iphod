@@ -20,6 +20,9 @@ import "../css/print.css";
 import "../css/resources.css";
 import "../css/stations.css";
 
+import "./menu"
+import socket from "./socket"
+
 import { Elm as ElmStations } from '../src/Stations.elm';
 // import { Elm as ElmHeader } from "../src/Header.elm"
 import { Elm as ElmMIndex } from '../src/MIndex.elm';
@@ -34,6 +37,102 @@ import $ from 'jquery';
 var moment = require('moment');
 var markdown = require('markdown').markdown;
 
+// POUCHDB .................................
+// var Pouchdb = require('pouchdb-browser');
+import Pouchdb from 'pouchdb';
+window.pdb = Pouchdb;
+window.preferences = new Pouchdb('preferences');
+// var Pouchdb = require('pouchdb')
+//   , preferences = new Pouchdb('preferences')
+window.iphod = new Pouchdb('iphod')
+window.service = new Pouchdb('service')
+var dbOpts = {live: true, retry: true}
+  , remoteIphod = "http://legereme.com:5984/iphod"
+  , remoteService = "http://legereme.com:5984/service"
+  , default_prefs = {
+      _id: 'preferences'
+    , ot: 'ESV'
+    , ps: 'BCP'
+    , nt: 'ESV'
+    , gs: 'ESV'
+    , fnotes: 'True'
+    , vers: ['ESV']
+    , current: 'ESV'
+  }
+
+function sync() {
+  iphod.replicate.to(remoteIphod, dbOpts, syncError);
+  iphod.replicate.from(remoteIphod, dbOpts, syncError);
+  service.replicate.to(remoteService, dbOpts, syncError);
+  service.replicate.from(remoteService, dbOpts, syncError);
+}
+
+function syncError() {console.log("SYNC ERROR")};
+
+sync();
+
+function get_service(named) {
+  service.get(named).then( resp => {
+    console.log(" RESP SERVICE: ", resp.service);
+    elmCalApp.ports.receivedOffice.send(resp.service)
+  }).catch(err => {
+    console.log("GET SERVICE ERROR: ", err);
+  });
+}
+
+function get_preferences(do_this_too) {
+  preferences.get('preferences').then(function(resp){
+    return do_this_too(resp);
+  }).catch(function(err){
+    console.log("GET PREFERENCE ERR: ", err);
+    return do_this_too(initialize_preferences());
+  })
+}
+
+function initialize_preferences() {
+  preferences.put( default_prefs ).then(function (resp) {
+    return resp;
+  }).catch( function (err) {
+    return prefs;
+  })
+}
+
+function save_preferences(prefs) {
+  prefs._id = 'preferences';
+  preferences.put(prefs).then(function(resp) {
+    return resp;
+  }).catch(function(err) {
+    return prefs;
+  })
+}
+
+function preference_list() {
+  get_preferences(function(resp) {
+    return [resp.ot, resp.ps, resp.nt, resp.gs];
+  })
+}
+
+function preference_for(key) {
+  get_preferences(function(resp) { return resp[key] })
+}
+
+function initElmHeader() {
+  get_preferences(function(resp) {
+    return elmHeaderApp.ports.portConfig.send(resp);
+  })
+}
+
+// END OF POUCHDB ....................
+
+// var elmDiv = $("#elm-container")
+//   , elmApp = ElmIphod.Iphod.init({node: elmDiv})
+//   ;
+// 
+//   elmApp.ports.requestOffice.subscribe( request => {
+//     console.log("elmApp REQUEST SERVICE: ", request);
+//   })
+
+
 var channel = socket.channel("iphod:readings");
 channel.join()
   .receive("ok", resp => {
@@ -47,6 +146,12 @@ var elmCalDiv = document.getElementById('cal-elm-container')
   , elmCalApp = ElmIphod.Iphod.init({node: elmCalDiv})
   ;
 
+elmCalApp.ports.requestOffice.subscribe(request => {
+  console.log("elmCalApp REQUEST OFFICE: ", request);
+  get_service(request);
+});
+
+/*
 var path = window.location.pathname
   , path_parts = path.split("/").filter( function(el) {return el.length > 0})
   , page = (path_parts.length > 0) ? path_parts[0] : 'office'
@@ -97,110 +202,6 @@ $("input[name='vss_show']").click(function() {
   $(this).val() == "show" ? $('.verse-num, .chapter-num').show() : $('.verse-num, .chapter-num').hide();
 })
 
-// LOCAL STORAGE ------------------------
-
-function storageAvailable(of_type) {
-  try {
-    var storage = window[of_type],
-        x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-  }
-  catch(e) { return false;}
-}
-
-function get_init(arg, arg2) {
-  var s = window.localStorage
-    , t = s.getItem(arg)
-  if (t == null) {
-        s.setItem(arg, arg2);
-        t = arg2;
-      }
-  return t;
-}
-function init_config_model() {
-  var m = { ot: "ESV"
-    , ps: "Coverdale"
-    , nt: "ESV"
-    , gs: "ESV"
-    , fnotes: "True"
-    , vers: ["ESV"]
-    , current: "ESV"
-    , fontSize: "12"
-    }
-  if ( storageAvailable('localStorage') ) {
-    m = { ot: get_init("iphod_ot", "ESV")
-        , ps: get_init("iphod_ps", "Coverdale")
-        , nt: get_init("iphod_nt", "ESV")
-        , gs: get_init("iphod_gs", "ESV")
-        , fnotes: get_init("iphod_fnotes", "True")
-        , vers: get_versions("iphod_vers", ["ESV"])
-        , current: get_init("iphod_current", "ESV")
-        , fontSize: get_init("fontSize", "12")
-        }
-  }
-  return m;
-}
-
-function get_versions(arg1, arg2) {
-  var versions = get_init(arg1, arg2)
-    , version_list = versions.split(",");
-  return version_list;
-}
-
-function get_version(arg) {
-  var m = { ot: "ESV"
-  , ps: "BCP"
-  , nt: "ESV"
-  , gs: "ESV"
-  }
-  return get_init("iphod_" + arg, m[arg])
-}
-
-function version_list() {
-  return [ get_version("ps")
-  , get_version("ot")
-  , get_version("nt")
-  , get_version("gs")
-  ]
-}
-
-function save_version(abbr) {
-  var s = window.localStorage
-    , t = s.getItem("iphod_vers");
-  if (t == null) {
-    t = [];
-  }
-  else {
-    t = t.split(",");
-  };
-  if (t.indexOf(abbr) >= 0) {return true;};
-  t.push(abbr);
-  t = t.toString();
-  s.setItem("iphod_vers", t);
-  return true
-}
-
-function unsave_version(abbr) {
-  var s = window.localStorage
-    , t = s.getItem("iphod_vers");
-  if (t == null) return true;
-  t = t.split(",");
-  t = t.filter(remove_abbr, abbr);
-  t = t.toString();
-  s.setItem("iphod_vers", t);
-  return true;
-}
-function remove_abbr(v, i, ary){
-  return v != this;
-}
-
-function save_user_name(name) {
-  if (storageAvailable('localStorage')) {
-    window.localStorage.setItem("user_name", name);
-  }
-}
 
 // HELPERS ------------------------
 
@@ -217,8 +218,6 @@ function date_today() {
 
 // SOCKETS ------------------------
 
-import "./menu"
-import socket from "./socket"
 
 var now = new Date()
   , tz = now.toString().split("GMT")[1].split(" (")[0] // timezone, i.e. -0700
@@ -236,6 +235,9 @@ if ( page == "stations") {
       console.log("Unabld to join Stations", resp)
     })
 
+  elmStationsApp.ports.requestOffice.subscribe( request => {
+    console.log("elmStationsApp REQUEST SERVICE: ", request);
+  })
   elmStationsApp.ports.requestStation.subscribe(function(request) {
       stationsChannel.push("get_station", request)
     })
@@ -282,7 +284,6 @@ if (isOffice) {
 
 
 // landing page, calendar
-
 if ( page == "calendar" || page == "mindex") {
   // mindex
   if ( page == "mindex" ) {
@@ -303,7 +304,6 @@ if ( page == "calendar" || page == "mindex") {
     $("#m-reading-container").click( function() {
       $("#reading-panel").show();
     });
-
 
     channel.on('reflection_today', data => {
       elmMindexApp.ports.portReflection.send(data);
@@ -354,7 +354,10 @@ if ( page == "calendar" || page == "mindex") {
       // request.push( version_list() )
       // channel.push("get_lesson", request)
     })
+    elmMindexApp.ports.requestOffice.subscribe(request => {
+          console.log("elmMindexApp REQUEST SERVICE: ", request);
 
+    })
 
     // calendar
 
@@ -386,6 +389,11 @@ if ( page == "calendar" || page == "mindex") {
     elmMPanelApp.ports.requestService.subscribe( function(request) {
       request.push( version_list() );
       channel.push("get_text", request )
+    })
+
+    elmMPanelApp.ports.requestOffice.subscribe(request => {
+          console.log("elmMPanelApp REQUEST SERVICE: ", request);
+
     })
 
     elmMPanelApp.ports.requestReflection.subscribe( function(date) {
@@ -558,6 +566,10 @@ if ( page == "calendar" ) {
     window.scrollTo(0, 0);
   }
 
+  elmCalApp.ports.requestOffice.subscribe( request => {
+    console.log("elmCalApp REQUEST SERVICE: ", request);
+  })
+
   elmCalApp.ports.requestReading.subscribe(function(request) {
     let request_list = [request.section, request.version, request.ref]
     channel.push("get_lesson", request_list)
@@ -627,6 +639,13 @@ if ( page == "versions" ) {
     elmTransApp.ports.allVersions.send(data.list);
   });
 
+    elmTransApp.ports.requestOffice.subscribe(request => {
+          console.log("elmTransApp REQUEST SERVICE: ", request);
+
+    })
+
+
+
   elmTransApp.ports.updateVersions.subscribe(function(version){
     if (version.selected) { save_version(version.abbr) }
     else { unsave_version(version.abbr) }
@@ -682,6 +701,13 @@ if ( page == "reflections" && (path_parts[1] == "new" || path_parts[2] == "edit"
     })
     .receive("error", resp => {console.log("Failed to join reflection")})
 
+    elmReflApp.ports.requestOffice.subscribe(request => {
+          console.log("elmReflApp REQUEST SERVICE: ", request);
+
+    })
+
+
+
   elmReflApp.ports.portSubmit.subscribe(function(d) {
     refl_channel.push("submit", [d.id, d.date, d.text, d.author, d.published])
   });
@@ -702,3 +728,4 @@ if ( page == "reflections" && (path_parts[1] == "new" || path_parts[2] == "edit"
     console.log("SUBMITTED: ", data)
   })
 } // END OF reflections
+*/

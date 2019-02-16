@@ -18,7 +18,8 @@
     "node-sass": "^4.5.3",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "pouchdb": "^6.3.4"
+    "pouchdb": "^7.0.0",
+    "pouchdb-browser": "^7.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -40,7 +41,7 @@
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9",
+    "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.1.4"
   }
 }

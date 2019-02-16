@@ -1211,7 +1211,7 @@ defmodule DailyReading do
         mp1: [
           %{style: "req", read: "Gen 43:1-10"},
           %{style: "opt", read: "Gen 43:11-14"},
-          %{stlye: "req", read: "Gen 43:15-34"}
+          %{style: "req", read: "Gen 43:15-34"}
         ],
         mp2: [%{style: "req", read: "Matt 3"}],
         mpp: [{107, 1, 22}],
@@ -2731,7 +2731,7 @@ defmodule DailyReading do
       # 18 Judg 1 † 1-21 Gal 3 119:1-24 119:25-48 18 Ezek 37 Acts 17:1-15
       "June18" => %{
         title: "",
-        mp1: [%{style: "req", read: "Judg 1:1-21"}, %{stlye: "opt", read: "Judg 1:22-end"}],
+        mp1: [%{style: "req", read: "Judg 1:1-21"}, %{style: "opt", read: "Judg 1:22-end"}],
         mp2: [%{style: "req", read: "Gal 3"}],
         mpp: [{119, 1, 24}],
         ep1: [%{style: "req", read: "Ezek 37"}],
@@ -4768,7 +4768,7 @@ defmodule DailyReading do
         mp1: [
           %{style: "req", read: "Ecclesiasticus 39:1-11"},
           %{style: "opt", read: "Ecclesiasticus 39:12-15"},
-          %{stlye: "req", read: "Ecclesiasticus 39:16-35"}
+          %{style: "req", read: "Ecclesiasticus 39:16-35"}
         ],
         mp2: [%{style: "req", read: "Acts 28:16-end"}],
         mpp: [{92, 1, 999}, {93, 1, 999}],

@@ -33,6 +33,53 @@ button {
   text-align: center;
 }
 
+p { margin: 0; }
+
+p.title {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+p.indent {
+  margin-left: 2em;
+}
+
+p.section {
+  font-size: 2em;
+  font-weight: bold;
+}
+p.psalm_name {
+  font-size: 1.5em;
+}
+p.psalm_name span {
+  padding-left: 3em;
+  font-style: italic;
+}
+p.psalm1 sup{
+  color: darkred;
+  padding-right: 1em;
+}
+p.psalm2 {
+  margin-left: 2em;
+}
+
+div.versical {
+  column-count: 2;
+  column-gap: 2em;
+}
+
+div.versical span.versical {
+  font-style: italic;
+  column-span: 1;
+}
+div.versical span {
+  font-style: normal;
+/*
+  position: relative;
+  left: 2em;
+*/
+}
+
 a.plain {
   text-decoration: none;
 }
