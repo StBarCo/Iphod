@@ -24,6 +24,13 @@ body, form, ul, table {
 }
 body.calendar { width: 55em; }
 
+#Traditional {
+}
+
+#Modern {
+  display: none;
+}
+
 button {    
   box-shadow: -2px 3px 8px #888888;
   border-radius: 5px;
@@ -31,6 +38,15 @@ button {
   background-color: darkred;
   color: honeydew;
   text-align: center;
+}
+
+.default_button {
+  margin: 0 1em;
+}
+
+.alt_button {
+  margin: 0 1em;
+  opacity: .5;
 }
 
 p { margin: 0; }

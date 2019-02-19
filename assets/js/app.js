@@ -73,7 +73,6 @@ sync();
 
 function get_service(named) {
   service.get(named).then( resp => {
-    console.log(" RESP SERVICE: ", resp.service);
     elmCalApp.ports.receivedOffice.send(resp.service)
   }).catch(err => {
     console.log("GET SERVICE ERROR: ", err);
@@ -147,7 +146,6 @@ var elmCalDiv = document.getElementById('cal-elm-container')
   ;
 
 elmCalApp.ports.requestOffice.subscribe(request => {
-  console.log("elmCalApp REQUEST OFFICE: ", request);
   get_service(request);
 });
 
