@@ -46,7 +46,7 @@ defmodule Iphod.MixProject do
       {:postgrex, ">= 0.13.3"},
       {:gettext, "~> 0.11"},
       {:html_entities, "~> 0.4"},
-      {:jason, "~> 1.0"},
+      {:jason, "~> 1.1.2"},
       {:plug, "~> 1.7"},
       {:plug_cowboy, "~> 2.0"},
       {:cowboy, "~> 2.5"},

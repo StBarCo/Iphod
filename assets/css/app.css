@@ -24,10 +24,10 @@ body, form, ul, table {
 }
 body.calendar { width: 55em; }
 
-#Traditional {
+.default {
 }
 
-#Modern {
+.alternative {
   display: none;
 }
 
@@ -38,6 +38,19 @@ button {
   background-color: darkred;
   color: honeydew;
   text-align: center;
+}
+
+p.ref {
+  font-style: italic;
+  font-size: 80%;
+}
+
+p.referenceText button{
+  margin: 0.5em 0 0.5em 2em;
+}
+
+#ReferenceReading {
+  margin: 1em 0 1em 2em;
 }
 
 .default_button {
@@ -51,21 +64,27 @@ button {
 
 p { margin: 0; }
 
-p.title {
+.title {
   font-size: 3em;
   font-weight: bold;
 }
 
-p.indent {
+.indent {
   margin-left: 2em;
 }
 
-p.section {
+.section {
   font-size: 2em;
   font-weight: bold;
 }
+
+span.ref {
+  font-size: 80%;
+  font-style: italic;
+  margin-left: 2em;
+}
 p.psalm_name {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 p.psalm_name span {
   padding-left: 3em;
