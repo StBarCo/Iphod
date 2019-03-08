@@ -5,7 +5,6 @@ defmodule IphodWeb.PrayerController do
   use Timex
   import Iphod.DailyOptions, only: [get_daily_options: 2]
   import BibleText, only: [lesson_with_body: 2]
-  import Collects, only: [collect: 1]
   @tz "America/Los_Angeles"
 
   def now(conn, params) do
@@ -270,13 +269,34 @@ defmodule IphodWeb.PrayerController do
   def put_canticle("mp", "ot", season, "Friday") when season == "easter", do: "te_deum"
   def put_canticle("mp", "ot", season, "Friday") when season == "easterWeek", do: "te_deum"
 
-  def put_canticle("mp", "ot", season, "Sunday") when season == "lent", do: "kyrie_pantokrator"
-  def put_canticle("mp", "ot", season, "Monday") when season == "lent", do: "quaerite_dominum"
-  def put_canticle("mp", "ot", season, "Tuesday") when season == "lent", do: "quaerite_dominum"
-  def put_canticle("mp", "ot", season, "Wednesday") when season == "lent", do: "kyrie_pantokrator"
-  def put_canticle("mp", "ot", season, "Thursday") when season == "lent", do: "quaerite_dominum"
-  def put_canticle("mp", "ot", season, "Friday") when season == "lent", do: "kyrie_pantokrator"
-  def put_canticle("mp", "ot", season, "Saturday") when season == "lent", do: "quaerite_dominum"
+  def put_canticle("mp", "ot", season, "Sunday")
+      when season == "lent" or season == "ashWednesday",
+      do: "kyrie_pantokrator"
+
+  def put_canticle("mp", "ot", season, "Monday")
+      when season == "lent" or season == "ashWednesday",
+      do: "quaerite_dominum"
+
+  def put_canticle("mp", "ot", season, "Tuesday")
+      when season == "lent" or season == "ashWednesday",
+      do: "quaerite_dominum"
+
+  def put_canticle("mp", "ot", season, "Wednesday")
+      when season == "lent" or season == "ashWednesday",
+      do: "kyrie_pantokrator"
+
+  def put_canticle("mp", "ot", season, "Thursday")
+      when season == "lent" or season == "ashWednesday",
+      do: "quaerite_dominum"
+
+  def put_canticle("mp", "ot", season, "Friday")
+      when season == "lent" or season == "ashWednesday",
+      do: "kyrie_pantokrator"
+
+  def put_canticle("mp", "ot", season, "Saturday")
+      when season == "lent" or season == "ashWednesday",
+      do: "quaerite_dominum"
+
   def put_canticle("mp", "ot", _season, "Sunday"), do: "benedictus"
   def put_canticle("mp", "ot", _season, "Monday"), do: "ecce_deus"
   def put_canticle("mp", "ot", _season, "Tuesday"), do: "benedictis_es_domine"
@@ -290,8 +310,14 @@ defmodule IphodWeb.PrayerController do
   def put_canticle("mp", "nt", season, "Thursday") when season == "advent",
     do: "magna_et_mirabilia"
 
-  def put_canticle("mp", "nt", season, "Sunday") when season == "lent", do: "benedictus"
-  def put_canticle("mp", "nt", season, "Thursday") when season == "lent", do: "magna_et_mirabilia"
+  def put_canticle("mp", "nt", season, "Sunday")
+      when season == "lent" or season == "ashWednesday",
+      do: "benedictus"
+
+  def put_canticle("mp", "nt", season, "Thursday")
+      when season == "lent" or season == "ashWednesday",
+      do: "magna_et_mirabilia"
+
   def put_canticle("mp", "nt", _season, "Sunday"), do: "te_deum"
   def put_canticle("mp", "nt", _season, "Monday"), do: "benedictus"
   def put_canticle("mp", "nt", _season, "Tuesday"), do: "benedictus"
@@ -300,7 +326,10 @@ defmodule IphodWeb.PrayerController do
   def put_canticle("mp", "nt", _season, "Friday"), do: "benedictus"
   def put_canticle("mp", "nt", _season, "Saturday"), do: "benedictus"
 
-  def put_canticle("ep", "ot", season, "Monday") when season == "lent", do: "kyrie_pantokrator"
+  def put_canticle("ep", "ot", season, "Monday")
+      when season == "lent" or season == "ashWednesday",
+      do: "kyrie_pantokrator"
+
   def put_canticle("ep", "ot", _season, "Sunday"), do: "magnificat"
   def put_canticle("ep", "ot", _season, "Monday"), do: "cantemus_domino"
   def put_canticle("ep", "ot", _season, "Tuesday"), do: "quaerite_dominum"

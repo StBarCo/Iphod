@@ -50,3 +50,5 @@ assets/elm/vendor/
 assets/src/elm-stuff/
 priv/cert/
 mix.lock
+
+assets/static/assets/favicon\.ico\.bak
