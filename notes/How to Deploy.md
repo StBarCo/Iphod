@@ -16,3 +16,7 @@ Deploy Release
 `mix edeliver deploy release to production`
 
 There is probably a better way to do this go, as in upgrading
+
+Don't for get to start the new deploy!
+
+`mix edeliver start production`
