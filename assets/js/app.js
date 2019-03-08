@@ -32,12 +32,11 @@ import { Elm as ElmResources } from '../src/Resources.elm';
 import { Elm as ElmReflections } from '../src/NewReflection.elm';
 
 import $ from 'jquery';
-import './jquery.waituntilexists.js';
 
 var moment = require('moment');
 var markdown = require('markdown').markdown;
 // var Parser = require( "./parser.js" );
-var LitYear = require( "./lityear.js" );
+var LitYear = require( "./lityear.js" ).LitYear;
 var BibleRef = require( "./bibleRef.js" );
 var DailyPsalms = require( "./dailyPsalms.js");
 
@@ -89,8 +88,16 @@ function get_service(named) {
   var dbName = "acna_" + named;
   console.log("GET SERVICE: ", dbName)
   service.get(dbName).then( resp => {
-    resp.service.unshift(named); // send along code name of service
-    elmCalApp.ports.receivedOffice.send(resp.service)
+    var now = moment()
+      , day = [ "Sunday", "Monday", "Tuesday"
+              , "Wednesday", "Thursday", "Friday"
+              , "Saturday"
+              ][now.weekday()]
+      , season = LitYear.toSeason(now)
+      , serviceHeader = [day, season.week.toString(), season.year, season.season, named]
+    ;
+    console.log("TODAY: ", serviceHeader.concat(resp.service))
+    elmCalApp.ports.receivedOffice.send(serviceHeader.concat(resp.service))
   }).catch(err => {
     console.log("GET SERVICE ERROR: ", err);
   });
@@ -171,7 +178,7 @@ elmCalApp.ports.requestOffice.subscribe(request => {
       , cmp = new moment().local().hour(20).minute(0).second(0)
       ;
     if ( now.isBefore(mid)) { get_service("morning_prayer") }
-    else if ( now.isBefore(ep) ) { get_service("morning_prayer")} // { get_service("midday")}
+    else if ( now.isBefore(ep) ) { get_service("midday")} // { get_service("midday")}
     else if ( now.isBefore(cmp) ) { get_service("morning_prayer")} // { get_service ("evening_prayer") }
     else { get_service("compline")}
   }
@@ -179,12 +186,12 @@ elmCalApp.ports.requestOffice.subscribe(request => {
 });
 
 elmCalApp.ports.toggleButtons.subscribe( request => {
-  var [div, section_button] = request;
+  var [div, section_button] = request.map( r => { return r.toLowerCase(); } );
   var section_id = section_button.replace("button", "id")
-  $("." + div).hide(); // hide all the alternatives
+  $("#alternatives_" + div + " .alternative").hide(); // hide all the alternatives
   $("#" + section_id).show(); // show the selected alternative
   // make all buttons unselected style
-  $("#" + div + " .default_button").removeClass("default_button").addClass("alt_button");
+  $("#alternatives_" + div + " .default_button").removeClass("default_button").addClass("alt_button");
   // make the selected button selected style
   $("#" + section_button + ":button").removeClass("alt_button").addClass("default_button");
 })
@@ -217,25 +224,16 @@ elmCalApp.ports.requestReference.subscribe( request => {
   })
 })
 
-elmCalApp.ports.requestLesson.subscribe( request => {
-  var [office, lesson] = request;
-  switch ( lesson ) {
-    case "lesson1" :
-    case "lesson2" :
-      insertLesson(lesson, office)
-      break;
-
-    case "psalms" :
-      insertPsalms(office)
-      break;
-
-    case "gospel" :
-      insertGospel(office)
-      break;
-
-    default : 
-      console.log("SOMETHING BAD HAPPENED - I DON'T KNOW: " + lesson)
+elmCalApp.ports.requestLessons.subscribe( request => {
+  if ( ["morning_prayer", "evening_prayer", "eucharist"].includes(request) ) { 
+    insertPsalms( request )
+    insertLesson( "lesson1", request )
+    insertLesson( "lesson2", request )
+    insertGospel( request )
+    insertCollect( request )
+    insertProper( request )
   }
+  // otherwise, don't do anything
 })
 
 function insertLesson(lesson, office) {
@@ -284,6 +282,31 @@ function insertLesson(lesson, office) {
 
 function insertGospel(office) {
   console.log("INSERT GOSPEL: ", office);
+}
+
+function insertCollect(office) {
+  console.log("INSERT COLLECT: ", office)
+    var now = moment()
+    , season = LitYear.toSeason(now)
+    , key = "collect_" + season.season
+    , collectDiv = "#collectOfDay"
+    ;
+  if ( ! ["ashWednesday", "annunciation", "allSaints"].includes(season.season) ) {
+    key = key + season.week
+  } 
+  iphod.get(key).then( resp => {
+    console.log("COLLECT: ", resp)
+    $(collectDiv + " .collectTitle").append("Collect of The Day <em>" + resp.title + "</em>")
+    $(collectDiv + " .collectContent").append(resp.text[0])
+  })
+  .catch( err => {
+    console.log("GET COLLET ERROR: ". err)
+  })
+
+}
+
+function insertProper(office) {
+  console.log("INSERT PROPER: ", office)
 }
 
 function insertPsalms(office) {

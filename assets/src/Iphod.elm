@@ -17,7 +17,7 @@ import Platform.Cmd as Cmd exposing (Cmd)
 import Markdown
 import Update.Extra as Update exposing (andThen, filter)
 import Iphod.Models as Models
-import List.Extra exposing (getAt)
+import List.Extra exposing (getAt, splitWhen)
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Grid.Row as Row
@@ -66,6 +66,11 @@ type alias Model =
     , navbarState : Navbar.State
     , builder : List String -- raw data
     , requestLesson : String
+    , currentAlt : String
+    , day : String
+    , week : String
+    , year : String
+    , season : String
     }
 
 {-
@@ -95,12 +100,25 @@ init _ =
             , navbarState = navbarState
             , builder = []
             , requestLesson = ""
+            , currentAlt = ""
+            , day = ""
+            , week = ""
+            , year = ""
+            , season = ""
             }
             
     in
             
     ( initModel, Cmd.batch[requestOffice "currentOffice", navbarCmd] )
 
+-- tempModel is used to build protions of a page to be embedded in div's etc
+tempModel : String -> Model -> Model
+tempModel label model =
+    { model 
+    | office = []
+    , requestLesson = ""
+    , currentAlt = label
+    }
 
 
 -- REQUEST PORTS
@@ -109,7 +127,7 @@ init _ =
 port requestReference : List String -> Cmd msg
 port requestOffice : String -> Cmd msg
 -- port requestReadings : String -> Cmd msg
-port requestLesson : List String -> Cmd msg
+port requestLessons : String -> Cmd msg
 port requestReflection : String -> Cmd msg
 port toggleButtons: List String -> Cmd msg
 
@@ -153,7 +171,6 @@ type Msg
     | NavbarMsg Navbar.State
     | UpdateReading Reading
     | UpdateOffice (List String)
-    | AddToOffice
     | UpdateReflection Models.Reflection
     | Compline
     | MorningPrayer
@@ -183,39 +200,26 @@ update msg model =
         UpdateOffice officeList ->
             let
                 newModel =
-                    { model 
-                    | officeName = officeList |> getAt 0 |> Maybe.withDefault "currentOffice"
-                    , office = []
-                    , builder = officeList |> List.drop 1
-                    }
+                    formatOffice <|
+                        { model 
+                        | office = []
+                        , day = officeList |> getAt 0 |> Maybe.withDefault "Sunday" 
+                        , week = officeList |> getAt 1 |> Maybe.withDefault "1"
+                        , year = officeList |> getAt 2 |> Maybe.withDefault "a"
+                        , season = officeList |> getAt 3 |> Maybe.withDefault "anytime"
+                        , officeName = officeList |> getAt 4 |> Maybe.withDefault "currentOffice"
+                        , builder = officeList |> List.drop 5
+                        }
             in
-            ( newModel, Cmd.none )
-                |> Update.andThen update AddToOffice
-
-        AddToOffice ->
-            let
-                newOffice = formatOffice model
-                resp = if newOffice.requestLesson |> String.isEmpty
-                    then (newOffice, Cmd.none)
-                    else
-                        ( { newOffice | requestLesson = "" }
-                        , Cmd.batch[ 
-                            requestLesson [newOffice.officeName, newOffice.requestLesson], 
-                            Cmd.none
-                            ]
-                        )
-                    
-            in
-            resp
-                |> Update.filter ( (newOffice.builder |> List.length) > 0 )
-                    ( Update.andThen update AddToOffice)
+            ( newModel, Cmd.batch[ requestLessons newModel.officeName, Cmd.none ] )
+                -- |> Update.andThen update AddToOffice
 
         UpdateReflection newReflection ->
             -- ( {model | reflection = newReflection}, Cmd.none )
             (model, Cmd.none)
 
         MorningPrayer ->
-            ( {model | pageName = "Morning Prayer", officeName = "morning_prayer"}
+            ( {model | pageName = "Morning Prayer", officeName = "morning_prayer", office = []}
             , Cmd.batch [   requestOffice "morning_prayer"
                         ,   Cmd.none
                         ] 
@@ -223,19 +227,21 @@ update msg model =
                     
         MiddayPrayer ->
             -- requestOffice "midday"
-            ( {model | pageName = "Midday Prayer"}
-            , Cmd.none
+            ( {model | pageName = "Midday Prayer", officeName = "midday", office = []}
+            , Cmd.batch [   requestOffice "midday"
+                        ,   Cmd.none
+                        ]
             )
                     
         EveningPrayer ->
-            ( {model | pageName = "Evening Prayer"}
+            ( {model | pageName = "Evening Prayer", officeName = "evening_prayer", office = []}
             , Cmd.batch [   requestOffice "evening_prayer"
                         ,   Cmd.none
                         ]
             )
                     
         Compline ->
-            ( {model | pageName = "Compline", officeName = "compline"}
+            ( {model | pageName = "Compline", officeName = "compline", office = []}
             , Cmd.batch [requestOffice "compline", Cmd.none] 
             )
 
@@ -287,29 +293,69 @@ formatOffice model =
         Just "--END--" -> 
             { model | builder = model.builder |> List.drop 1 }
 
-        Just "title" -> oneArg model
-        Just "rubric" -> oneArg model
-        Just "line" -> oneArg model
-        Just "indent" -> oneArg model
-        Just "prayer" -> oneArg model
-        Just "section" -> oneArg model
-        Just "psalm_name" -> psalmName model
-        Just "psalm1" -> psalm1 model
-        Just "psalm2" -> oneArg model 
-        Just "versical" -> versical model
-        Just "scripture" -> scripture model
-        Just "reading" -> reading model
-        Just "ref" -> reference model
-        Just "referenceText" -> referenceText model
         Just "alternatives" -> 
-            { model | builder = model.builder |> List.drop 1}
-
+            alternatives model |> formatOffice
+        Just "alternative" -> 
+            alternative model "alternative" |> formatOffice
+        Just "collect" -> collect model |> formatOffice
+        Just "default" -> 
+            alternative model "alternative default" |> formatOffice
+        Just "indent" -> oneArg model |> formatOffice
+        Just "line" -> oneArg model |> formatOffice
+        Just "prayer" -> oneArg model |> formatOffice
+        Just "psalm_name" -> psalmName model |> formatOffice
+        Just "psalm1" -> psalm1 model |> formatOffice
+        Just "psalm2" -> oneArg model  |> formatOffice
+        Just "reading" -> reading model |> formatOffice
+        Just "ref" -> reference model |> formatOffice
+        Just "referenceText" -> referenceText model |> formatOffice
+        Just "rubric" -> oneArg model |> formatOffice
+        Just "scripture" -> scripture model |> formatOffice
+        Just "section" -> oneArg model |> formatOffice
+        Just "title" -> oneArg model |> formatOffice
+        Just "versical" -> versical model |> formatOffice
         _ ->
-            { model | builder = model.builder |> List.drop 1 }
+            { model | builder = model.builder |> List.drop 1 } |> formatOffice
 
 
+-- create and div to hold all the alternatives
+-- the buttons go into sub div class "altButtons"                
+alternatives : Model -> Model
+alternatives model =
+    let
+        c = model.builder |> getAt 0 |> Maybe.withDefault ""
+        label = model.builder |> getAt 2 |> Maybe.withDefault ""
+        altsId =  label |> makeId "alternatives_"
+        temp = { model | builder = model.builder |> List.drop 3 } |> tempModel label
+        subModel =  temp |> formatOffice
+        newDiv =
+            div [ id altsId, class c ]
+            (   (div [ class "altButtons" ] ( buttonBuilder temp.builder label [] )
+                ) :: subModel.office
+            )
                     
-            
+            -- do some smart stuff here
+    in
+    { model
+    | office = [newDiv] |> List.append model.office
+    , builder = subModel.builder
+    }
+
+alternative : Model -> String -> Model
+alternative model ofType =
+    let
+        -- c = model.builder |> getAt 0 |> Maybe.withDefault ""
+        label = model.currentAlt
+        altId = model.builder |> getAt 2 |> Maybe.withDefault "" |> makeId (label ++ "Id_")
+        subModel = { model | builder = model.builder |> List.drop 3 } |> (tempModel label) |> formatOffice
+        newDiv = 
+            div [ id altId, class ofType ] subModel.office
+    in
+    { model 
+    | office = [newDiv] |> List.append model.office
+    , builder = subModel.builder
+    }
+
 
 dropThroughKey : a -> List a -> List a
 dropThroughKey key list =
@@ -319,32 +365,61 @@ dropThroughKey key list =
         Nothing -> list
 
 
-addButton : String -> String -> String -> List (Html Msg) -> List (Html Msg)
-addButton altDivId label className buttons =
+buttonBuilder : List String -> String -> List (Html Msg) -> List (Html Msg)
+buttonBuilder list superClass buttons =
     let
-        buttonId =
-            makeId "button_" label
-        lowerClassName = makeId "class_" label
-    in
+        subLists = subListTuple list "--END--"
+        subList1 = subLists |> Tuple.first
+        subList2 = subLists |> Tuple.second
+        allDone = subList1 |> List.isEmpty
             
-    button  [ id buttonId
-            , class className
-            , onClick (AltButton altDivId buttonId) 
-            ] 
-            [ Markdown.toHtml [] label ] :: buttons 
+    in
+    case allDone of
+        True -> buttons |> List.reverse            
+        False ->
+            let
+                cls = subList1 |> getAt 0 |> Maybe.withDefault "" |> makeId "button_"
+                label = subList1 |> getAt 2 |> Maybe.withDefault ""
+                -- altDivId = label |> makeId ""
+                buttonId = label |> makeId (superClass ++ "Button_")
+        
+            in
+            ( button  [ id buttonId
+                    , class cls
+                    , onClick (AltButton superClass buttonId)
+                    ]                    
+                    [ Markdown.toHtml [] label ] :: buttons
+            ) |> buttonBuilder subList2 superClass
 
--- addDiv : Model -> Model
--- addDiv model =
---     let
---         resp = model.build |> List.Extra.break ((==) "--END--")
---         lowerDivName = makeId "id_" divName
---         thisDiv = (formatList String model (resp |> Tuple.first) [] ) |> List.reverse
---             
---     in
---     { model
---     | office = model.office |> List.append [ div [ id lowerDivName, class altDivClass ] thisDiv ]
---     , builder = model.builder |> List.drop 2
---     }
+
+collect : Model -> Model
+collect model =
+    let
+        cls = "collectContent"
+        s = model.builder |> getAt 4 |> Maybe.withDefault ""
+        title = if s |> String.isEmpty 
+            then "" 
+            else  
+                   (model.builder |> getAt 1 |> Maybe.withDefault "")
+                ++ " _"
+                ++ (model.builder |> getAt 2 |> Maybe.withDefault "")
+                ++ "_"     
+
+        collectId = if s |> String.isEmpty
+            then "collectOfDay"
+            else title |> makeId "collect_"
+            
+    in
+    { model 
+    | office = 
+        [ div [ id collectId, class cls ] 
+            [ div [ class "collectTitle" ] [ Markdown.toHtml [] title ]
+            , div [ class cls ] [ Markdown.toHtml [] s ] 
+            ]
+        ] |> List.append model.office
+    , builder = model.builder |> List.drop 5
+    }
+            
 
 oneArg : Model -> Model
 oneArg model =
@@ -472,11 +547,16 @@ makeId idType string =
     let
         labelName =
             (userReplace "[^a-zA-Z0-9]" (\_ -> "_") string)
-            |> String.toLower
+            
     in
             
-    idType ++ labelName
-    
+    (idType ++ labelName) |> String.toLower
+
+subListTuple : List String -> String -> (List String, List String)
+subListTuple list splitHere =
+    case ( list |> splitWhen (\s -> s == splitHere) ) of
+        Just (a, b) -> (a,  b |> List.drop 1 )
+        Nothing -> ([], [])
 
 -- VIEW
 
@@ -484,7 +564,7 @@ makeId idType string =
 view : Model -> Document Msg
 view model =
     { title = model.pageName
-    , body = navigation model :: model.office
+    , body = navigation model :: [ div [ id "service"] model.office ]
     }
             
 navigation : Model -> Html Msg

@@ -1,0 +1,546 @@
+port module Iphod exposing (..)
+
+-- where
+
+-- import Debug
+
+
+-- import StartApp
+
+import Browser exposing (Document)
+import Html exposing (..)
+import Html
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Platform.Sub as Sub exposing (batch)
+import Platform.Cmd as Cmd exposing (Cmd)
+import Markdown
+import Iphod.Models as Models
+import List.Extra exposing (getAt)
+import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Col as Col
+import Bootstrap.Grid.Row as Row
+import Bootstrap.Navbar as Navbar
+import Regex
+
+
+-- MAIN
+{-
+main =
+    Browser.element
+        { init = init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
+        }
+-}
+
+main = 
+    Browser.document
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+
+
+-- MODEL
+
+type alias Service = List String
+ 
+type alias Reading =
+    { key: String
+    , text: String
+    }
+initReading : Reading
+initReading =
+    { key = ""
+    , text = ""
+    }
+
+type alias Model =
+    { pageName: String
+    , serviceName: String
+    , service: Service
+    , readings: List Reading
+    , reflection : Models.Reflection
+    , navbarState : Navbar.State
+    , psalms : String
+    , lesson1 : String
+    , lesson2 : String
+    , gospel : String
+    }
+
+{-
+initModel : Model
+initModel =
+    let
+        (navbarState, navbarCmd) =
+            Navbar.initialState NavbarMsg
+    in
+            
+    { service = []
+    , readings = []
+    , reflection = Models.initReflection
+    , navbar = navbarState
+    }
+-}
+
+init : () -> ( Model, Cmd Msg )
+init _ =
+    let
+        (navbarState, navbarCmd) =
+            Navbar.initialState NavbarMsg
+        initModel =
+            { pageName = "Legereme"
+            , serviceName = "currentOffice"
+            , service = []
+            , readings = []
+            , reflection = Models.initReflection
+            , navbarState = navbarState
+            , psalms = "PSALMS GO HERE"
+            , lesson1 = "LESSON 1 GOES HERE"
+            , lesson2 = "LESSON 2 GOES HERE"
+            , gospel = "GOSPEL GOES HERE"
+            }
+            
+    in
+            
+    ( initModel, Cmd.batch[requestOffice "currentOffice", navbarCmd] )
+
+
+
+-- REQUEST PORTS
+
+
+port requestReference : List String -> Cmd msg
+port requestOffice : String -> Cmd msg
+port requestReadings : String -> Cmd msg
+port requestReflection : String -> Cmd msg
+port toggleButtons: List String -> Cmd msg
+
+
+-- SUBSCRIPTIONS
+
+
+--port receivedReading : (Reading -> msg) -> Sub msg
+port receivedOffice : (Service -> msg) -> Sub msg
+port receivedReflection : (Models.Reflection -> msg) -> Sub msg
+port receivedPsalms : (String -> msg) -> Sub msg
+port receivedLesson1 : (String -> msg) -> Sub msg
+port receivedLesson2 : (String -> msg) -> Sub msg
+port receivedGospel : (String -> msg) -> Sub msg
+
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ receivedOffice UpdateOffice
+        , receivedReflection UpdateReflection
+        , receivedPsalms UpdatePsalms
+        , receivedLesson1 UpdateLesson1
+        , receivedLesson2 UpdateLesson2
+        , receivedGospel UpdateGospel
+        ]
+
+
+
+-- UPDATE
+
+
+type ShowHide
+    = Show
+    | Hide
+
+
+type Msg
+    = NoOp
+    | NavbarMsg Navbar.State
+    | UpdateReading Reading
+    | UpdateOffice Service
+    | UpdateReflection Models.Reflection
+    | Compline
+    | MorningPrayer
+    | MiddayPrayer
+    | EveningPrayer
+    | AltButton String String
+    | RequestReference String String
+    | RequestLessons
+    | UpdatePsalms String
+    | UpdateLesson1 String
+    | UpdateLesson2 String
+    | UpdateGospel String
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+        NavbarMsg state ->
+            ( { model | navbarState = state}, Cmd.none)
+
+        UpdateReading newReading ->
+            ( model , Cmd.none )
+
+        UpdateOffice newService ->
+            ( { model 
+                | serviceName = newService |> getAt 0 |> Maybe.withDefault "currentOffice" 
+                , service = newService |> List.drop 1 
+              }
+              , Cmd.none
+            )
+
+        UpdateReflection newReflection ->
+            ( {model | reflection = newReflection}, Cmd.none )
+
+        MorningPrayer ->
+            ( {model | pageName = "Morning Prayer", serviceName = "morning_prayer"}
+            , Cmd.batch [   requestOffice "morning_prayer"
+                        ,   Cmd.none
+                        ] 
+            )
+                    
+        MiddayPrayer ->
+            -- requestOffice "midday"
+            ( {model | pageName = "Midday Prayer"}
+            , Cmd.none
+            )
+                    
+        EveningPrayer ->
+            ( {model | pageName = "Evening Prayer"}
+            , Cmd.batch [   requestOffice "evening_prayer"
+                        ,   requestReadings "ep"
+                        ,   Cmd.none
+                        ]
+            )
+                    
+        Compline ->
+            ( {model | pageName = "Compline", serviceName = "compline"}
+            , Cmd.batch [requestOffice "compline", Cmd.none] 
+            )
+
+        AltButton altDiv buttonLabel ->
+            (model, Cmd.batch [toggleButtons [altDiv, buttonLabel], Cmd.none] )  
+
+        RequestReference readingId ref ->
+            (model, Cmd.batch [requestReference [readingId, ref], Cmd.none] )  
+
+        RequestLessons ->
+            let
+                _ =
+                    Debug.log "Request Lessons" model.serviceName
+            in
+                    
+            ( model
+            , Cmd.batch[ requestReadings model.serviceName, Cmd.none ]
+            )
+
+        UpdatePsalms psalms -> 
+            let
+                _ =
+                    Debug.log "UPDATE PSALMS: " psalms
+            in
+                    
+            ( { model | psalms = psalms }, Cmd.none )         
+
+        UpdateLesson1 s -> 
+            ( { model | lesson1 = s }, Cmd.none )         
+
+        UpdateLesson2 s -> 
+            ( { model | lesson2 = s }, Cmd.none )         
+
+        UpdateGospel s -> 
+            ( { model | gospel = s }, Cmd.none )         
+
+
+
+
+-- HELPERS
+
+formatService : Model -> Service -> List (Html Msg) -> List (Html Msg)
+formatService model service htmlList =
+    let
+        buttons = []
+        altHtml = []
+        -- used for initializing building the alternative section
+    in
+            
+    case service |> List.head of
+        Nothing -> htmlList -- nothing left, return the list
+        Just "--EOF--" ->
+            let
+                _ = Debug.log "--EOF--:" model.serviceName
+                _ =
+                    update RequestLessons
+            in
+            formatService model (service |> List.drop 1) htmlList
+
+        Just "--END--" -> 
+            formatService model (service |> List.drop 1) htmlList  -- end of a section
+
+        Just "title" -> oneArg model service htmlList
+        Just "rubric" -> oneArg model service htmlList
+        Just "line" -> oneArg model service htmlList
+        Just "indent" -> oneArg model service htmlList  
+        Just "prayer" -> oneArg model service htmlList
+        Just "section" -> oneArg model service htmlList
+        Just "psalm_name" -> psalmName model service htmlList
+        Just "psalm1" -> psalm1 model service htmlList
+        Just "psalm2" -> oneArg model service htmlList   
+        Just "versical" -> versical model service htmlList
+        Just "scripture" -> scripture model service htmlList 
+        Just "reading" -> reading model service htmlList 
+        Just "ref" -> reference model service htmlList
+        Just "referenceText" -> referenceText model service htmlList
+        Just "alternatives" -> 
+            let
+                altId = service |> getAt 2 |> Maybe.withDefault "" |> makeId "id_"
+                resp = alternatives model (service |> List.drop 3) altId altHtml buttons
+                newService = resp |> Tuple.first
+                newDiv = div [ id altId ] (resp |> Tuple.second |> List.reverse )
+                newHtmlList = newDiv :: htmlList
+
+            in
+            formatService model newService newHtmlList
+
+        _ ->
+            formatService
+                model
+                (service |> List.drop 1)
+                htmlList
+
+
+-- when you get here, the key word: "alternatives" should not be at the top of Service
+alternatives : Model -> Service -> String -> List (Html Msg) -> List (Html Msg) -> (Service, List (Html Msg))
+alternatives model service altDivId altHtml buttons =
+    case service of
+        [] -> (service, List.concat [buttons, altHtml]) -- do something smart; you shouldn't get here
+        [x] -> (service, List.concat [buttons, altHtml]) -- you shouldnt get here either!
+        "default" :: t -> build_alternatives model "default" t altDivId altHtml buttons
+        "alternative" :: t -> build_alternatives model "alternative" t altDivId altHtml buttons
+        "--END--" :: t -> (service, List.concat [altHtml, buttons])
+        _ ->
+            let
+                _ =
+                    Debug.log "SOMETHING BAD HAPPENED: " "Inside or near alternatives"
+                _ = Debug.log "SERVICE: " service
+            in
+            (service, List.concat [buttons, altHtml])
+                        
+            
+
+build_alternatives : Model -> String -> Service -> String -> List (Html Msg) -> List (Html Msg) -> (Service, List (Html Msg))
+build_alternatives model alt service altDivId altHtml buttons =
+    let
+        label = service |> getAt 1 |> Maybe.withDefault ""
+        newDivClasses = altDivId ++ " " ++ alt
+        newAltHtml = addDiv model newDivClasses label (service |> List.drop 2) altHtml 
+        newService = service |> dropThroughKey "--END--"
+        newButtons = case alt of
+            "default" -> buttons |> addButton altDivId label "default_button"
+            "alternative" -> buttons |> addButton altDivId label "alt_button"
+            _ -> 
+                let
+                    _ =
+                        Debug.log "BUILD ALTERNATIVES SOMETHING BAD HAPPENED: " alt
+                in
+                buttons
+                        
+    in
+    alternatives model newService altDivId newAltHtml newButtons
+                    
+            
+
+dropThroughKey : a -> List a -> List a
+dropThroughKey key list =
+    case (list |> List.Extra.elemIndex key) of
+        Just n -> 
+            list |> List.drop (n + 1)
+        Nothing -> list
+
+
+addButton : String -> String -> String -> List (Html Msg) -> List (Html Msg)
+addButton altDivId label className buttons =
+    let
+        buttonId =
+            makeId "button_" label
+        lowerClassName = makeId "class_" label
+    in
+            
+    button  [ id buttonId
+            , class className
+            , onClick (AltButton altDivId buttonId) 
+            ] 
+            [ Markdown.toHtml [] label ] :: buttons 
+
+addDiv : Model -> String -> String -> Service -> List (Html Msg) -> List (Html Msg)
+addDiv model altDivClass divName service htmlList =
+    let
+        resp = service |> List.Extra.break ((==) "--END--")
+        lowerDivName = makeId "id_" divName
+        thisDiv = (formatService model (resp |> Tuple.first) [] ) |> List.reverse
+            
+    in
+            
+    ( div [ id lowerDivName, class altDivClass ] thisDiv )
+    :: htmlList          
+
+oneArg : Model -> Service -> List (Html Msg) -> List (Html Msg)
+oneArg model service htmlList =
+    let
+        s = service |> getAt 1 |> Maybe.withDefault ""
+        c = service |> getAt 0 |> Maybe.withDefault ""
+    in
+            
+    formatService
+        model
+        (service |> List.drop 2)
+        ( div [ class c ] [ Markdown.toHtml [] s ]  :: htmlList)
+
+psalmName : Model -> Service -> List (Html Msg) -> List (Html Msg)
+psalmName model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        name = service |> getAt 1 |> Maybe.withDefault ""
+        title = service |> getAt 2 |> Maybe.withDefault ""
+            
+    in
+    formatService
+        model
+        (service |> List.drop 3)
+        ( p [class c] [ text name, span [] [ text title ] ] :: htmlList)
+            
+
+psalm1 : Model -> Service -> List (Html Msg) -> List (Html Msg)
+psalm1 model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        n = service |> getAt 1 |> Maybe.withDefault ""
+        s = service |> getAt 2 |> Maybe.withDefault ""
+            
+    in
+    formatService
+        model
+        (service |> List.drop 3)
+        ( p [ class c ] [ sup [] [ text n], text s ]  :: htmlList)
+            
+scripture : Model -> Service -> List (Html Msg) -> List (Html Msg)
+scripture model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        s = service |> getAt 1 |> Maybe.withDefault ""
+        ref = service |> getAt 2 |> Maybe.withDefault ""
+            
+    in
+    formatService
+        model
+        ( service |> List.drop 3 )
+        ( div [ class c ] [ text s, span [ class "ref" ] [ text ref ]] :: htmlList )  
+
+versical : Model -> Service -> List (Html Msg) -> List (Html Msg)
+versical model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        speaker = service |> getAt 1 |> Maybe.withDefault ""
+        says = service |> getAt 2 |> Maybe.withDefault ""
+            
+    in
+    formatService
+        model
+        (service |> List.drop 3)
+        ( Grid.simpleRow
+            [ Grid.col [ Col.xs2, Col.sm2, Col.md1, Col.lg1] [ em [] [ text speaker ] ]
+            , Grid.col [ Col.xs8, Col.sm8, Col.md4, Col.lg4] [ text says ]
+            ]
+         :: htmlList
+        )
+
+reading : Model -> Service -> List (Html Msg) -> List (Html Msg)
+reading model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        mpep = service |> getAt 1 |> Maybe.withDefault ""
+        thisReading = case mpep of
+                "psalms" -> [ text model.psalms ]
+                "lesson1" -> [ text model.lesson1 ]
+                "lesson2" -> [ text model.lesson2 ]
+                "gospel" -> [ text model.gospel ]
+                _ -> [ text ("What's this: " ++ mpep) ]
+              
+    in
+    formatService
+        model
+        ( service |> List.drop 2 )
+        ( div [ id mpep ] thisReading :: htmlList)
+
+reference : Model -> Service -> List (Html Msg) -> List (Html Msg)
+reference model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        ref = service |> getAt 1 |> Maybe.withDefault ""
+            
+    in
+    formatService
+        model
+        ( service |> List.drop 2 )
+        ( p [class c] [text ref] :: htmlList )
+
+
+referenceText : Model -> Service -> List (Html Msg) -> List (Html Msg)
+referenceText model service htmlList =
+    let
+        c = service |> getAt 0 |> Maybe.withDefault ""
+        ref = service |> getAt 1 |> Maybe.withDefault ""
+        readingId = ref |> makeId "button_"
+               
+    in
+    formatService 
+        model
+        ( service |> List.drop 2)
+        ( p [ class c ] 
+            [ button [ id readingId, onClick (RequestReference readingId ref) ] 
+              [ text ref ] 
+          ] :: htmlList
+        ) 
+
+userReplace : String -> (Regex.Match -> String) -> String -> String
+userReplace userRegex replacer string =
+    case Regex.fromString userRegex of
+        Nothing -> string
+        Just regex ->
+            Regex.replace regex replacer string
+
+makeId : String -> String -> String
+makeId idType string =
+    let
+        labelName =
+            (userReplace "[^a-zA-Z0-9]" (\_ -> "_") string)
+            |> String.toLower
+    in
+            
+    idType ++ labelName
+    
+
+-- VIEW
+
+
+view : Model -> Document Msg
+view model =
+    { title = model.pageName
+    , body = [ navigation model, div [] ( formatService model model.service [] |> List.reverse ) ]
+    }
+            
+navigation : Model -> Html Msg
+navigation model =
+    Navbar.config NavbarMsg
+        |> Navbar.brand [ href "#" ] [ text "Legereme"]
+        |> Navbar.items
+            [ Navbar.itemLink [ href "#", onClick MorningPrayer ] [ text "Morning Prayer" ]
+            , Navbar.itemLink [ href "#", onClick MiddayPrayer ] [ text "Midday Prayer" ]
+            , Navbar.itemLink [ href "#", onClick EveningPrayer ] [ text "Evening Prayer" ]
+            , Navbar.itemLink [ href "#", onClick Compline ] [ text "Compline" ]
+            ]
+        |> Navbar.view model.navbarState
