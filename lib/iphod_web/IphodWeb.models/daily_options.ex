@@ -44,6 +44,7 @@ defmodule Iphod.DailyOptions do
       dreading.season == "lent" -> "lent_venite"
       dreading.season == "ashWednesday" -> "lent_venite"
       dreading.season == "easterDay" && dreading.week == "1" -> "pascha_nostrum"
+      dreading.season == "easterWeek" -> "pascha_nostrum"
       dreading.season == "easter" -> ["venite", "jubilate", "pascha_nostrum"] |> Enum.random()
       true -> ["venite", "jubilate"] |> Enum.random()
     end
